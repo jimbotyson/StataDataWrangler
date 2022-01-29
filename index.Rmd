@@ -1,0 +1,27 @@
+---
+title: "Data Manipulation in R"
+site: bookdown::bookdown_site
+github-repo: jimbotyson/StataDataWrangler
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(comment = NA)
+```
+
+# Introduction
+
+Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world datasets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this workshop you will learn how to manipulate raw data and prepare it for analysis. The following topics are covered in the workshop:
+
+- Learning to multiple frames to work on data
+- Merging multiple datasets
+- creating and dropping variables
+- using `preserve` and `restore`
+- creating subsets of data 
+- Reshaping data between long and wide formats 
+- Summarising data with group-wise operation
+
+This workshop is designed for individuals who are already familiar with Stata but wish to learn efficient techniques for data manipulation. You will need a machine running Stata 17 and access to the internet.
+
+----
+
+*Last Updated: `r format(Sys.time(), "%b %d, %Y %l:%M %p")`*
