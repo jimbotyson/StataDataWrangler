@@ -1,0 +1,95 @@
+# Basic Operations
+
+## Folders
+
+I assume that you have a folder structure like
+
+```
+Project Folder
+├── raw data
+├── scripts
+│   ├── cleanmydata.do
+│   └── modelmydata.do
+├── documentation
+│   ├── PDFs
+│   └── Word_docs
+└──graphs
+```
+ 
+ Of course, other folder set-ups are possible, so be aware of your own as you follow the rest of this guide.  I assume that the path to your project is
+ 
+ `c:\users\jt\Documents\Projects\StataWrangling`
+
+
+## The do file
+
+Let's start off by creating a new do file:
+
+```
+doedit newdo.do
+```
+
+Clear everything to make sure there's nothing leftover in our environment
+
+```
+clear all
+```
+
+## Initiating your data wrangling script
+
+In a new data wrangling script you should
+ - start a log;
+ - make sure you are in the correct project directory;
+ - clear working memory.
+
+So in your new do file add these lines:
+
+```
+capture log close
+log using "MainProjectName $S_DATE.log", append
+```
+or
+```
+cmdlog using "CommandsProjectName $S_DATE.log", append
+```
+to log commands only and not output.
+
+Next you should make sure you are in the correct directory.  Normally for a data wrangling script, this will be the `raw data` directory for the project.
+
+```
+cd c:\users\jt\Documents\Projects\StataWrangling\raw data\
+```
+
+and then the line
+
+```
+clear all
+```
+
+to start with a clear workspace.
+
+## Dataset
+
+We're using a dataset of examination results from thirty school students.
+
+These data are in in csv format: comma seperated values.  Each case or observation is a row with variables in rows seperated by commas.
+
+Read the main data file:
+
+```
+use https://www.ucl.ac.uk/~ccaajim/results
+```
+
+When you first read a datafile, you should always
+
+ * `describe` the data;
+ * check the codebook.
+
+You can do this for the complete set of variable s for simple cases, but you may wish to be selective when you have a lot of variables.  The examination data is quite simple.  In your do file add
+
+```
+describe
+codebook
+```
+
+

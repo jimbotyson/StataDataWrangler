@@ -1,0 +1,15 @@
+# Getting Started
+
+## Prerequisites
+
+Basic knowledge of working with data in Stata is essential. This course assumes that you're comfortable with reading datasets, working with do files, and navigating the Stata interface.
+
+## Software Requirements
+
+### Stata Release 17 or later.
+
+Recent versions of Stata, 17 or later are required.  You can check your version from the command line with:
+
+```
+version
+```
