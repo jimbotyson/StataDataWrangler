@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Data Manipulation in Stata</title>
+  <meta name="description" content="Data Manipulation in Stata" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Data Manipulation in Stata" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="jimbotyson/StataDataWrangler" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Data Manipulation in Stata" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="acknowledgments.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="css/readthedocs.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i><b>2</b> Acknowledgments</a></li>
+<li class="chapter" data-level="3" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>3</b> Getting Started</a><ul>
+<li class="chapter" data-level="3.1" data-path="getting-started.html"><a href="getting-started.html#prerequisites"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="getting-started.html"><a href="getting-started.html#software-requirements"><i class="fa fa-check"></i><b>3.2</b> Software Requirements</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="getting-started.html"><a href="getting-started.html#stata-release-17-or-later."><i class="fa fa-check"></i><b>3.2.1</b> Stata Release 17 or later.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="basic-operations.html"><a href="basic-operations.html"><i class="fa fa-check"></i><b>4</b> Basic Operations</a><ul>
+<li class="chapter" data-level="4.1" data-path="basic-operations.html"><a href="basic-operations.html#folders"><i class="fa fa-check"></i><b>4.1</b> Folders</a></li>
+<li class="chapter" data-level="4.2" data-path="basic-operations.html"><a href="basic-operations.html#the-do-file"><i class="fa fa-check"></i><b>4.2</b> The do file</a></li>
+<li class="chapter" data-level="4.3" data-path="basic-operations.html"><a href="basic-operations.html#initiating-your-data-wrangling-script"><i class="fa fa-check"></i><b>4.3</b> Initiating your data wrangling script</a></li>
+<li class="chapter" data-level="4.4" data-path="basic-operations.html"><a href="basic-operations.html#dataset"><i class="fa fa-check"></i><b>4.4</b> Dataset</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Manipulation in Stata</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Data Manipulation in Stata</h1>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world datasets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this workshop you will learn how to manipulate raw data and prepare it for analysis. The following topics are covered in the workshop:</p>
+<ul>
+<li>Learning to use multiple frames to work on data</li>
+<li>Merging data sets, with and without frames</li>
+<li>creating and dropping variables</li>
+<li>using <code>preserve</code> and <code>restore</code></li>
+<li>creating subsets of data</li>
+<li>Reshaping data between long and wide formats</li>
+<li>Summarising data with group-wise operation</li>
+</ul>
+<p>This workshop is designed for individuals who are already familiar with Stata but wish to learn efficient techniques for data manipulation. You will need a machine running Stata 17 and access to the internet.</p>
+<hr />
+<p><em>Last Updated: Jan 30, 2022 5:50 pm</em></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="acknowledgments.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statadata_tutorial.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-# Basic Operations
+# Some using Stata basics
 
 ## Folders
 
@@ -85,11 +85,73 @@ When you first read a datafile, you should always
  * `describe` the data;
  * check the codebook.
 
-You can do this for the complete set of variable s for simple cases, but you may wish to be selective when you have a lot of variables.  The examination data is quite simple.  In your do file add
+You can do this for the complete set of variable s for simple cases, but you may wish to be selective when you have a lot of variables.  
+
+### Data Types
+
+The examination data is quite simple.  In your do file add
 
 ```
 describe
 codebook
 ```
+This produces
 
+![The main Stata results screen showing the output of desc](./images/describeoutput1.png)
+### Interpretation of `describe` output
 
+This output shows first how many observations there are in your data and how many variables.  The table that follows includes some detail about each variable:
+
+**Storage type** There are two basic data types in Stata: *numeric* and *string* data.  String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where # is a number) and have a limit on length of 2045 characters.
+Numeric data is of one of five types:
+
+|type|precision|range|
+|----|---------|----|
+|byte|integer  |-127 to 100|
+|int |integer  |-32,767 and 32,740|
+|long|integer  |-2,147,483,647 and 2,147,483,620|
+|float|real    |8 digits of accuracy|
+|double|real   |16 digits of accuracy|
+
+Format types are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed.  So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width).
+
+### Interpretation of codebook
+
+The result of `codebook` shows you the data type of the variables; the range and the numeric unit of measure; the number of unique values in the data; the number of values missing; the mean value for continuous variables; the standard deviation; the percentile values for the 10%, 25%, 50%, 75%, 90% points.
+
+The value of output from `codebook` is enhanced if you have taken care to label variables and values.
+
+## Exercise 
+
+What are the types and formats of the variables `maths`, `english`, `history`?  Why is `maths` different?
+
+# Selecting variables in operations
+
+We will use the command `list` which displays rows of variable values to illustrate the selection of variables.
+
+With most commands, variables can be included in the *varlist* that follows a command name.  So on the command line we can type
+
+```
+list maths english history
+```
+
+which displays all the values for those three variables.  Much of the time this is the only selection of variables you need.  But, there are times when you wish to select a subset of variables for manipulation perhaps for a series of operations.  In this case we can use `preserve` and `restore`.
+
+The command `preserve` takes a snapshot of a data set.  If we then manipulate or modify the data, we can return to the snapshot state with the command `restore`.  You can use `drop varlist` to remove variables from the workspace or `keep varlist` to specify variables to be kept in the workspace.
+
+## Exercise
+
+Add the following lines to your script
+
+```
+keep maths english history
+
+summarize _all
+
+```
+
+What is the effect of these lines.
+
+## The uses of _all
+
+Stata has a built in *macro* (Stata speak for a script variable) named **_all** that contains all the variable names currently in memory.

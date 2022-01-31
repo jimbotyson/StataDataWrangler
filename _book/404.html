@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Page not found | Data Manipulation in Stata</title>
+  <meta name="description" content="Page not found | Data Manipulation in Stata" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Page not found | Data Manipulation in Stata" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="jimbotyson/StataDataWrangler" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Page not found | Data Manipulation in Stata" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="css/readthedocs.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i><b>2</b> Acknowledgments</a></li>
+<li class="chapter" data-level="3" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>3</b> Getting Started</a><ul>
+<li class="chapter" data-level="3.1" data-path="getting-started.html"><a href="getting-started.html#prerequisites"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="3.2" data-path="getting-started.html"><a href="getting-started.html#software-requirements"><i class="fa fa-check"></i><b>3.2</b> Software Requirements</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="getting-started.html"><a href="getting-started.html#stata-release-17-or-later."><i class="fa fa-check"></i><b>3.2.1</b> Stata Release 17 or later.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html"><i class="fa fa-check"></i><b>4</b> Some using Stata basics</a><ul>
+<li class="chapter" data-level="4.1" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#folders"><i class="fa fa-check"></i><b>4.1</b> Folders</a></li>
+<li class="chapter" data-level="4.2" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#the-do-file"><i class="fa fa-check"></i><b>4.2</b> The do file</a></li>
+<li class="chapter" data-level="4.3" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#initiating-your-data-wrangling-script"><i class="fa fa-check"></i><b>4.3</b> Initiating your data wrangling script</a></li>
+<li class="chapter" data-level="4.4" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#dataset"><i class="fa fa-check"></i><b>4.4</b> Dataset</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#data-types"><i class="fa fa-check"></i><b>4.4.1</b> Data Types</a></li>
+<li class="chapter" data-level="4.4.2" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#interpretation-of-codebook"><i class="fa fa-check"></i><b>4.4.2</b> Interpretation of codebook</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#exercise"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html"><i class="fa fa-check"></i><b>5</b> Selecting variables in operations</a><ul>
+<li class="chapter" data-level="5.1" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#exercise-1"><i class="fa fa-check"></i><b>5.1</b> Exercise</a></li>
+<li class="chapter" data-level="5.2" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#the-uses-of-_all"><i class="fa fa-check"></i><b>5.2</b> The uses of _all</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Manipulation in Stata</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="page-not-found" class="section level1">
+<h1>Page not found</h1>
+<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
+<p>You may want to try searching to find the page's new location, or use
+the table of contents to find the page you are looking for.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": {}
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["statadata_tutorial.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
