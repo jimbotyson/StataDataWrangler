@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 Getting Started | Data Manipulation and Analysis in Stata</title>
-  <meta name="description" content="3 Getting Started | Data Manipulation and Analysis in Stata" />
+  <title>7 Labelling | Data Manipulation and Analysis in Stata</title>
+  <meta name="description" content="7 Labelling | Data Manipulation and Analysis in Stata" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 Getting Started | Data Manipulation and Analysis in Stata" />
+  <meta property="og:title" content="7 Labelling | Data Manipulation and Analysis in Stata" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jimbotyson/StataDataWrangler" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 Getting Started | Data Manipulation and Analysis in Stata" />
+  <meta name="twitter:title" content="7 Labelling | Data Manipulation and Analysis in Stata" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="acknowledgments.html"/>
-<link rel="next" href="some-using-stata-basics.html"/>
+<link rel="prev" href="selecting-variables-in-operations.html"/>
+
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -123,29 +123,21 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="getting-started" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Getting Started</h1>
-<div id="prerequisites" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Prerequisites</h2>
-<p>Basic knowledge of working with data in Stata is essential. This course assumes that you’re comfortable with reading datasets, working with do files, and navigating the Stata interface.</p>
-</div>
-<div id="software-requirements" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Software Requirements</h2>
-<div id="stata-release-17-or-later." class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Stata Release 17 or later.</h3>
-<p>Recent versions of Stata, 17 or later are required. You can check your version from the command line with:</p>
-<pre><code>version</code></pre>
+<div id="labelling" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Labelling</h1>
+<p>Variable names are not always very human friendly. It is useful therefor to be able to attach a <strong>label</strong> to a variable, especially for using in output such as graphs.</p>
+<p>Add the following line of code to your script</p>
+<pre><code>label variable sex &quot;Gender&quot;</code></pre>
+<p>now use the <code>table</code> command to view a table of frequencies of the <code>sex</code> variable. What has been the effect of your line of code?</p>
 
-</div>
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="acknowledgments.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="some-using-stata-basics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="selecting-variables-in-operations.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

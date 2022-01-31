@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Some using Stata basics | Data Manipulation in Stata</title>
-  <meta name="description" content="4 Some using Stata basics | Data Manipulation in Stata" />
+  <title>4 Some using Stata basics | Data Manipulation and Analysis in Stata</title>
+  <meta name="description" content="4 Some using Stata basics | Data Manipulation and Analysis in Stata" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Some using Stata basics | Data Manipulation in Stata" />
+  <meta property="og:title" content="4 Some using Stata basics | Data Manipulation and Analysis in Stata" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jimbotyson/StataDataWrangler" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Some using Stata basics | Data Manipulation in Stata" />
+  <meta name="twitter:title" content="4 Some using Stata basics | Data Manipulation and Analysis in Stata" />
   
   
   
@@ -30,7 +30,8 @@
   
   
 <link rel="prev" href="getting-started.html"/>
-<link rel="next" href="selecting-variables-in-operations.html"/>
+<link rel="next" href="detecting-and-correcting.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -48,7 +49,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
@@ -70,26 +70,42 @@
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i><b>2</b> Acknowledgments</a></li>
-<li class="chapter" data-level="3" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>3</b> Getting Started</a><ul>
+<li class="chapter" data-level="3" data-path="getting-started.html"><a href="getting-started.html"><i class="fa fa-check"></i><b>3</b> Getting Started</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="getting-started.html"><a href="getting-started.html#prerequisites"><i class="fa fa-check"></i><b>3.1</b> Prerequisites</a></li>
-<li class="chapter" data-level="3.2" data-path="getting-started.html"><a href="getting-started.html#software-requirements"><i class="fa fa-check"></i><b>3.2</b> Software Requirements</a><ul>
+<li class="chapter" data-level="3.2" data-path="getting-started.html"><a href="getting-started.html#software-requirements"><i class="fa fa-check"></i><b>3.2</b> Software Requirements</a>
+<ul>
 <li class="chapter" data-level="3.2.1" data-path="getting-started.html"><a href="getting-started.html#stata-release-17-or-later."><i class="fa fa-check"></i><b>3.2.1</b> Stata Release 17 or later.</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html"><i class="fa fa-check"></i><b>4</b> Some using Stata basics</a><ul>
+<li class="chapter" data-level="4" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html"><i class="fa fa-check"></i><b>4</b> Some using Stata basics</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#folders"><i class="fa fa-check"></i><b>4.1</b> Folders</a></li>
-<li class="chapter" data-level="4.2" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#the-do-file"><i class="fa fa-check"></i><b>4.2</b> The do file</a></li>
-<li class="chapter" data-level="4.3" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#initiating-your-data-wrangling-script"><i class="fa fa-check"></i><b>4.3</b> Initiating your data wrangling script</a></li>
-<li class="chapter" data-level="4.4" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#dataset"><i class="fa fa-check"></i><b>4.4</b> Dataset</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#data-types"><i class="fa fa-check"></i><b>4.4.1</b> Data Types</a></li>
-<li class="chapter" data-level="4.4.2" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#interpretation-of-codebook"><i class="fa fa-check"></i><b>4.4.2</b> Interpretation of codebook</a></li>
+<li class="chapter" data-level="4.2" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#exercise"><i class="fa fa-check"></i><b>4.2</b> Exercise</a></li>
+<li class="chapter" data-level="4.3" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#common-file-types"><i class="fa fa-check"></i><b>4.3</b> Common File types</a></li>
+<li class="chapter" data-level="4.4" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#the-do-file"><i class="fa fa-check"></i><b>4.4</b> The do file</a></li>
+<li class="chapter" data-level="4.5" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#initiating-your-script"><i class="fa fa-check"></i><b>4.5</b> Initiating your script</a></li>
+<li class="chapter" data-level="4.6" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#exercise-1"><i class="fa fa-check"></i><b>4.6</b> Exercise</a></li>
+<li class="chapter" data-level="4.7" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#dataset"><i class="fa fa-check"></i><b>4.7</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#data-types"><i class="fa fa-check"></i><b>4.7.1</b> Data Types</a></li>
+<li class="chapter" data-level="4.7.2" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#interpretation-of-describe-output"><i class="fa fa-check"></i><b>4.7.2</b> Interpretation of <code>describe</code> output</a></li>
+<li class="chapter" data-level="4.7.3" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#interpretation-of-codebook"><i class="fa fa-check"></i><b>4.7.3</b> Interpretation of codebook</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#exercise"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+<li class="chapter" data-level="4.8" data-path="some-using-stata-basics.html"><a href="some-using-stata-basics.html#exercise-2"><i class="fa fa-check"></i><b>4.8</b> Exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html"><i class="fa fa-check"></i><b>5</b> Selecting variables in operations</a><ul>
-<li class="chapter" data-level="5.1" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#exercise-1"><i class="fa fa-check"></i><b>5.1</b> Exercise</a></li>
-<li class="chapter" data-level="5.2" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#the-uses-of-_all"><i class="fa fa-check"></i><b>5.2</b> The uses of _all</a></li>
+<li class="chapter" data-level="5" data-path="detecting-and-correcting.html"><a href="detecting-and-correcting.html"><i class="fa fa-check"></i><b>5</b> Detecting and correcting</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="detecting-and-correcting.html"><a href="detecting-and-correcting.html#exercise-3"><i class="fa fa-check"></i><b>5.1</b> Exercise</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html"><i class="fa fa-check"></i><b>6</b> Selecting variables in operations</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#exercise-4"><i class="fa fa-check"></i><b>6.1</b> Exercise</a></li>
+<li class="chapter" data-level="6.2" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#the-uses-of-_all"><i class="fa fa-check"></i><b>6.2</b> The uses of _all</a></li>
+<li class="chapter" data-level="6.3" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#exercise-5"><i class="fa fa-check"></i><b>6.3</b> Exercise</a></li>
+<li class="chapter" data-level="6.4" data-path="selecting-variables-in-operations.html"><a href="selecting-variables-in-operations.html#creating-a-custom-variable-list"><i class="fa fa-check"></i><b>6.4</b> Creating a custom variable list</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="labelling.html"><a href="labelling.html"><i class="fa fa-check"></i><b>7</b> Labelling</a></li>
 </ul>
 
       </nav>
@@ -99,7 +115,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Manipulation in Stata</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Manipulation and Analysis in Stata</a>
           </h1>
         </div>
 
@@ -107,9 +123,9 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="some-using-stata-basics" class="section level1">
+<div id="some-using-stata-basics" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Some using Stata basics</h1>
-<div id="folders" class="section level2">
+<div id="folders" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Folders</h2>
 <p>I assume that you have a folder structure like</p>
 <pre><code>Project Folder
@@ -124,100 +140,123 @@
 <p>Of course, other folder set-ups are possible, so be aware of your own as you follow the rest of this guide. I assume that the path to your project is</p>
 <p><code>c:\users\jt\Documents\Projects\StataWrangling</code></p>
 </div>
-<div id="the-do-file" class="section level2">
-<h2><span class="header-section-number">4.2</span> The do file</h2>
+<div id="exercise" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Exercise</h2>
+<p>If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata if you know how or using your computers user interface.</p>
+</div>
+<div id="common-file-types" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Common File types</h2>
+<p>You will commonly encounter three types of file specific to Stata</p>
+<ul>
+<li>The .dta file which is Stata’s proprietary data format;</li>
+<li>The do file which is Stata’s scripting files;</li>
+<li>The .log file which is the file type recording session logs.</li>
+</ul>
+</div>
+<div id="the-do-file" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> The do file</h2>
 <p>Let’s start off by creating a new do file:</p>
 <pre><code>doedit newdo.do</code></pre>
 <p>Clear everything to make sure there’s nothing leftover in our environment</p>
 <pre><code>clear all</code></pre>
 </div>
-<div id="initiating-your-data-wrangling-script" class="section level2">
-<h2><span class="header-section-number">4.3</span> Initiating your data wrangling script</h2>
-<p>In a new data wrangling script you should
-- start a log;
-- make sure you are in the correct project directory;
-- clear working memory.</p>
+<div id="initiating-your-script" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Initiating your script</h2>
+<p>In a new data wrangling script you should</p>
+<ul>
+<li>start a log;</li>
+<li>make sure you are in the correct project directory;</li>
+<li>clear working memory.</li>
+</ul>
 <p>So in your new do file add these lines:</p>
 <pre><code>capture log close
 log using &quot;MainProjectName $S_DATE.log&quot;, append</code></pre>
 <p>or</p>
 <pre><code>cmdlog using &quot;CommandsProjectName $S_DATE.log&quot;, append</code></pre>
 <p>to log commands only and not output.</p>
-<p>Next you should make sure you are in the correct directory. Normally for a data wrangling script, this will be the <code>raw data</code> directory for the project.</p>
+<p>Next you should make sure you are in the correct directory. Normally for a data wrangling script, this will be the <code>raw data</code> directory for the project by adding a line like</p>
 <pre><code>cd c:\users\jt\Documents\Projects\StataWrangling\raw data\</code></pre>
-<p>and then the line</p>
+<p>(you must alter this to point at your folder) and then the line</p>
 <pre><code>clear all</code></pre>
 <p>to start with a clear workspace.</p>
 </div>
-<div id="dataset" class="section level2">
-<h2><span class="header-section-number">4.4</span> Dataset</h2>
+<div id="exercise-1" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Exercise</h2>
+<p>Close your the log file or log files you have created and outside of Stata find the files and view the content.</p>
+</div>
+<div id="dataset" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Dataset</h2>
 <p>We’re using a dataset of examination results from thirty school students.</p>
 <p>These data are in in csv format: comma seperated values. Each case or observation is a row with variables in rows seperated by commas.</p>
-<p>Read the main data file:</p>
+<p>The Stata <code>use</code> command reads in data from Stata format files. Read the main data file:</p>
 <pre><code>use https://www.ucl.ac.uk/~ccaajim/results</code></pre>
 <p>When you first read a datafile, you should always</p>
 <ul>
 <li><code>describe</code> the data;</li>
 <li>check the codebook.</li>
 </ul>
-<p>You can do this for the complete set of variable s for simple cases, but you may wish to be selective when you have a lot of variables.</p>
-<div id="data-types" class="section level3">
-<h3><span class="header-section-number">4.4.1</span> Data Types</h3>
+<p>You can do this for the complete set of variables for simple cases, but you may wish to be selective when you have a lot of variables.</p>
+<div id="data-types" class="section level3" number="4.7.1">
+<h3><span class="header-section-number">4.7.1</span> Data Types</h3>
 <p>The examination data is quite simple. In your do file add</p>
 <pre><code>describe
 codebook</code></pre>
-<p>This produces</p>
-<p><img src="images/describeoutput1.png" alt="The main Stata results screen showing the output of desc" />
-### Interpretation of <code>describe</code> output</p>
+<p>And run the do file. This first command produces</p>
+<div class="figure">
+<img src="images/describeoutput1.png" alt="" />
+<p class="caption">The main Stata results screen showing the output of desc</p>
+</div>
+</div>
+<div id="interpretation-of-describe-output" class="section level3" number="4.7.2">
+<h3><span class="header-section-number">4.7.2</span> Interpretation of <code>describe</code> output</h3>
 <p>This output shows first how many observations there are in your data and how many variables. The table that follows includes some detail about each variable:</p>
-<p><strong>Storage type</strong> There are two basic data types in Stata: <em>numeric</em> and <em>string</em> data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where # is a number) and have a limit on length of 2045 characters.
-Numeric data is of one of five types:</p>
+<p><strong>Storage type</strong> There are two basic data types in Stata: <em>numeric</em> and <em>string</em> data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where # is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:</p>
 <table>
 <thead>
 <tr class="header">
-<th>type</th>
-<th>precision</th>
-<th>range</th>
+<th align="left">type</th>
+<th align="left">precision</th>
+<th align="left">range</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>byte</td>
-<td>integer</td>
-<td>-127 to 100</td>
+<td align="left">byte</td>
+<td align="left">integer</td>
+<td align="left">-127 to 100</td>
 </tr>
 <tr class="even">
-<td>int</td>
-<td>integer</td>
-<td>-32,767 and 32,740</td>
+<td align="left">int</td>
+<td align="left">integer</td>
+<td align="left">-32,767 and 32,740</td>
 </tr>
 <tr class="odd">
-<td>long</td>
-<td>integer</td>
-<td>-2,147,483,647 and 2,147,483,620</td>
+<td align="left">long</td>
+<td align="left">integer</td>
+<td align="left">-2,147,483,647 and 2,147,483,620</td>
 </tr>
 <tr class="even">
-<td>float</td>
-<td>real</td>
-<td>8 digits of accuracy</td>
+<td align="left">float</td>
+<td align="left">real</td>
+<td align="left">8 digits of accuracy</td>
 </tr>
 <tr class="odd">
-<td>double</td>
-<td>real</td>
-<td>16 digits of accuracy</td>
+<td align="left">double</td>
+<td align="left">real</td>
+<td align="left">16 digits of accuracy</td>
 </tr>
 </tbody>
 </table>
 <p>Format types are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type <code>%9.0g</code> is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means ’just as many as can be displayed for this width).</p>
 </div>
-<div id="interpretation-of-codebook" class="section level3">
-<h3><span class="header-section-number">4.4.2</span> Interpretation of codebook</h3>
-<p>The result of <code>codebook</code> shows you the data type of the variables; the range and the numeric unit of measure; the number of unique values in the data; the number of values missing; the mean value for continuous variables; the standard deviation; the percentile values for the 10%, 25%, 50%, 75%, 90% points.</p>
+<div id="interpretation-of-codebook" class="section level3" number="4.7.3">
+<h3><span class="header-section-number">4.7.3</span> Interpretation of codebook</h3>
+<p>The output of <code>codebook</code> shows you the data type of the variables; the range and the numeric unit of measure; the number of unique values in the data; the number of values missing; the mean value for continuous variables; the standard deviation; the percentile values for the 10%, 25%, 50%, 75%, 90% points.</p>
 <p>The value of output from <code>codebook</code> is enhanced if you have taken care to label variables and values.</p>
 </div>
 </div>
-<div id="exercise" class="section level2">
-<h2><span class="header-section-number">4.5</span> Exercise</h2>
+<div id="exercise-2" class="section level2" number="4.8">
+<h2><span class="header-section-number">4.8</span> Exercise</h2>
 <p>What are the types and formats of the variables <code>maths</code>, <code>english</code>, <code>history</code>? Why is <code>maths</code> different?</p>
 </div>
 </div>
@@ -227,7 +266,7 @@ Numeric data is of one of five types:</p>
         </div>
       </div>
 <a href="getting-started.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="selecting-variables-in-operations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="detecting-and-correcting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
