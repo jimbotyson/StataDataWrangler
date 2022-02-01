@@ -44,7 +44,7 @@ Clear everything to make sure there's nothing leftover in our environment
 
     clear all
 
-## Initiating your script
+## Initialising your script
 
 In a new data wrangling script you should
 
@@ -313,3 +313,53 @@ We apply the labels to values of a variable `eyecolour` with a command like
 ## Exercise
 
 Create an appropriate label set for the variable `sex` in your data set and apply it to the values of `sex`. Use the `list` command to check the results. What do you see?
+
+# Some exploratory analysis
+
+Before embarking on the systematic modelling and testing of data, you may wish to explore its broad outline. There are several useful Stata procedures for this task:
+
+-   simple visualisatons:
+
+    -   box plots;
+    -   histograms;
+    -   bar charts;
+
+-   summary statistics;
+
+-   tables.
+
+## Simple visualisations
+
+For continuous numeric data you can create box plots and histograms. In your do file add the line
+
+    hist maths
+
+You might like to create graphs for a list of variables. First create a macro containing the variable names, then create the histograms. Try the following lines
+
+    global conts maths english history
+    hist $conts
+
+Unfortunately, as soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this outcome by creating and exporting the histograns in a program loop. Add the following lines to your script
+
+    foreach var in $conts {
+        hist `var'
+        graph export `var'.png
+    }
+
+Once this loop terminates, you can look in your current directory to find the exported graphs.
+
+You can dig deeper into your data by grouping values by any factor (categorical) variables, for example
+
+    graph box $conts, over(sex)
+
+## Exercise
+
+Create histograms for the `english` and`history` data. How similar or dissimilar do you think these data are?
+
+Create box plots of `maths` for each level of`sex`. How do you think the male and female maths scores compare?
+
+## Summary statistics
+
+Quick summary statistics for continuous numeric variables can be calculated with the `summarize` command. Try the command
+
+    summarize maths
