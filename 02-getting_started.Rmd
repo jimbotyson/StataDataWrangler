@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Basic knowledge of working with data in Stata is essential. This course assumes that you're comfortable with reading datasets, working with do files, and navigating the Stata interface.
+These tutorials assume no knowledge of Stata but do assume that you are comfortable using a computer with a modern user interface (for example Windows, MacOs, linux with Ubuntu) and that you will be ok typing commands in a console or a script.  You will also need to learn how to navigate a folder or directory tree.
 
 ## Software Requirements
 
@@ -13,3 +13,7 @@ Recent versions of Stata, 17 or later are required.  You can check your version 
 ```
 version
 ```
+
+## How to use these materials
+
+Test all the code you see.  Some of the code is written to be added to a script and you should develop a single script for all sections since some of the later material will assume that you have run earlier example code.  Sometimes the tutorial suggests that you run a command on the console or command line and you should do so.  Don't add commands intended for the console to your script - they may cause your script to break and fail.

@@ -2,10 +2,10 @@
 
 ## Folders
 
-I assume that you have a folder structure like
+I assume that you have a folder structure something like
 
     Project Folder
-    ├── raw data
+    ├── raw_data
     ├── scripts
     │   ├── cleanmydata.do
     │   └── modelmydata.do
@@ -14,13 +14,32 @@ I assume that you have a folder structure like
     │   └── Word_docs
     └──graphs
 
-Of course, other folder set-ups are possible, so be aware of your own as you follow the rest of this guide. The path to my main project folder,for example, is
+(though you probably don't have scripts named `cleanmydata.do` and `modelmydata.do`, those are just examples). Of course, other folder set-ups are possible, so be aware of your own as you follow the rest of this guide. The path to my main project folder,for example, is
 
 `c:\users\jt\Documents\Projects\StataWrangling`
 
 ## Exercise
 
-If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata if you know how or using your computers user interface.
+If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata.  First 
+
+    pwd
+  
+check the result and make sure that it shows the directory where you want to store your projects.  To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
+
+    mkdir ProjectName
+    cd ProjectName
+    mkdir raw_data
+    mkdir scripts
+    mkdir documentation
+    mkdir graphs
+    cd documentation
+    mkdir PDFs
+    mkdir Word_docs
+    cd ../..
+    pwd
+  
+Check that you end up back in your main project folder.
+
 
 ## Common File types
 
@@ -81,9 +100,9 @@ To check which directory you are currently in type
 
 on the Stata console.
 
-Normally for a data wrangling script, this will be the `raw data` directory for the project by adding a line like
+Normally for a data wrangling script, this will be the `raw_data` directory for the project by adding a line like
 
-    cd c:\users\jt\Documents\Projects\StataWrangling\raw data\
+    cd c:\users\jt\Documents\Projects\StataWrangling\raw_data\
 
 (you must alter this to point at your folder) and then the line
 
@@ -179,6 +198,20 @@ How would you describe the effect of the modifier `in 1/6`
 
 ## Sorting
 
+The most basic sort command in Stata is `sort`.  This command sorts on a list of variables (at least one) in ascending order.  Run this code in the command window
+
+    sort gender maths
+
+If you list the data now and scroll through the output, you will see it is sorted first by gender ascending and then by maths ascending.  While useful, there is a more flexible command for sorting values.
+
+## `gsort`
+
+The command `gsort` also sortson on a list of variables, but you can determine the order by prefixing a variable name with + for ascending order or - for descending order.  Try the following in the command window
+
+    gsort +gender -teacher - maths
+
+Again you should list and scroll and note effect.
+
 # Detecting and correcting
 
 In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables. If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
@@ -192,7 +225,7 @@ In your script add the following lines:
     gen anomaly = 0
     replace anomaly = 1 if !inrange(maths,0,50)
 
-Are after you run these lines, are there any anomylous cases in your dataset? How many?
+Are after you run these lines, are there any anomalous cases in your dataset? How many?
 
 The Stata symbol for or is **\|** sometimes called bar or pipe.
 
@@ -208,7 +241,7 @@ When you have inspected the data to ensure the correction has been made, `restor
 
 ## Exercise
 
-Correct the anomylous `maths` score, but do not base the replacement on the `surname` variable, rather use only the `maths` values.
+Correct the anomalous `maths` score, but do not base the replacement on the `surname` variable, rather use only the `maths` values.
 
 # Selecting variables in operations
 
@@ -363,3 +396,15 @@ Create box plots of `maths` for each level of`sex`. How do you think the male an
 Quick summary statistics for continuous numeric variables can be calculated with the `summarize` command. Try the command
 
     summarize maths
+
+You will see that this gives a brief summary of the variable.
+
+you can add detail to the summary with the `detail` option
+
+    summarize maths english, detail
+    
+  
+
+Summary statistics for continuous numeric variables with the `tabstat` command.
+
+    tabstat maths english
