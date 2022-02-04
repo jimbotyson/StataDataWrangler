@@ -18,9 +18,9 @@ Data manipulation is the process of cleaning, organising and preparing data in a
 
 -   creating and dropping variables
 
--   using `preserve` and \`restore
+-   using `preserve` and `restore`
 
--   creating subsets of d
+-   creating subsets of data
 
 -   Reshaping data between long and wide form
 

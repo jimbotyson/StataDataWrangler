@@ -1,5 +1,5 @@
 delete_merged_file: true
-book_filename: statadata_tutorial.Rmd
+book_filename: statadatatutorial.Rmd
 
 rmd_files:
   - index.Rmd
