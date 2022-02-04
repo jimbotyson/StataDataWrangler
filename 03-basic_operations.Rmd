@@ -216,7 +216,7 @@ Again you should list and scroll and note effect.
 
 In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables. If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
 
-In Stata we can use programming functions that return values. Many functions return vales **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is less greater than *min* and less than *max*. We negate functions with the operator meaning **not** - *!*.
+In Stata we can use programming functions that return values. Many functions return vales **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is less greater than *min* and less than *max*. We negate functions with the operator meaning **not**: **!**.
 
 ## Exercise
 
@@ -408,3 +408,8 @@ you can add detail to the summary with the `detail` option
 Summary statistics for continuous numeric variables with the `tabstat` command.
 
     tabstat maths english
+    
+and you can specify statistics with the `statistic` option:
+
+    tabstat maths english, statistic(median var skew)
+    

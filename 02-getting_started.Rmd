@@ -17,3 +17,10 @@ version
 ## How to use these materials
 
 Test all the code you see.  Some of the code is written to be added to a script and you should develop a single script for all sections since some of the later material will assume that you have run earlier example code.  Sometimes the tutorial suggests that you run a command on the console or command line and you should do so.  Don't add commands intended for the console to your script - they may cause your script to break and fail.
+
+Code to be executed and run by you looks like this:
+
+    type this at the console and hit return
+    or add it to a script and run the script
+    
+Generally the tutorial will be explicit about when you should add code to a script.
