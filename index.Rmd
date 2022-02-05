@@ -10,7 +10,7 @@ output:
 
 # Introduction
 
-Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world data sets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this series you will learn how to manipulate raw data and prepare it for analysis and then to carry out simple analysis of yur data. The following topics are covered in the series:
+Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world data sets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this series you will learn how to manipulate raw data and prepare it for analysis and then to carry out simple analysis of your data. The following topics are covered in the series:
 
 -   Learning to use multiple frames to work on data
 

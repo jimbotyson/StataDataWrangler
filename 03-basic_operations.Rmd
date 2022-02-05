@@ -296,14 +296,14 @@ Answer these questions:
 
 ## Creating a custom variable list
 
-Since many commands take a list of variables to operate on, it can be useful to create a specific list of variables that you can easily refer to repeatedly. We will do this with a Stata `global` macro.
+Since many commands take a list of variables to operate on, it can be useful to create a specific list of variables that you can easily refer to repeatedly. We will do this with a Stata macro.  Stata macros are programming variables or, if you prefer, containers for text.  Stata has both local and global macros and for the most part you will use local macros in your scripts.
 
 Add the following lines to your script
 
-    global conts maths english history
-    summarize $conts
+    local conts maths english history
+    summarize `conts'
 
-Since in this case we don't drop any variables, we don't `preserve` and `restore`.
+Since in this case we don't drop any variables, we don't need to use `preserve` and `restore` to work on a subset of our data.
 
 # Labelling
 
