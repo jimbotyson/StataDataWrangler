@@ -242,9 +242,9 @@ Correct the anomalous `maths` score, but do not base the replacement on the `sur
 
 # Selecting
 
-Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetetive. If we are going to subject some subset of our data to a series of operations in a complex process, this method is less attractive than the possibility of making our selection and then passint the resulting data through a pipeline (as R practitioners often do).
+Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive. If we are going to subject some subset of our data to a series of operations in a complex process, this method is less attractive than the possibility of making our selection and then passing the resulting data through a pipeline (as R practitioners often do).
 
-In what follows I mainly treat selecting data in the 'traditional' way, but I will suggest that judicious use of `restore' and`preserve' as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-1]
+In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore' and `preserve' as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-1]
 
 [^basic_operations-1]: <https://www.stata.com/support/faqs/data-management/selecting-subset-of-observations/>
 
