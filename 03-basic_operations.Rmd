@@ -20,11 +20,11 @@ I assume that you have a folder structure something like
 
 ## Exercise
 
-If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata.  First 
+If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata. First
 
     pwd
-  
-check the result and make sure that it shows the directory where you want to store your projects.  To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
+
+check the result and make sure that it shows the directory where you want to store your projects. To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
 
     mkdir ProjectName
     cd ProjectName
@@ -37,9 +37,8 @@ check the result and make sure that it shows the directory where you want to sto
     mkdir Word_docs
     cd ../..
     pwd
-  
-Check that you end up back in your main project folder.
 
+Check that you end up back in your main project folder.
 
 ## Common File types
 
@@ -100,15 +99,13 @@ To check which directory you are currently in type
 
 on the Stata console.
 
-Normally for a data wrangling script, this will be the `raw_data` directory for the project by adding a line like
+## Change to your data directory
+
+Change directory to the folder that will hold your project's raw data files (that is data that you have not processed or transformed). Normally for a data wrangling script, this will be the `raw_data` directory for the project by typing a line like
 
     cd c:\users\jt\Documents\Projects\StataWrangling\raw_data\
 
-(you must alter this to point at your folder) and then the line
-
-    clear all
-
-to start with a clear workspace.
+(you must alter this to point at your folder). When you write code to read a raw data file, you will want to make sure that it is read into this diredctory.
 
 ## Exercise
 
@@ -156,7 +153,7 @@ And run the do file. This first command produces
 
 This output shows first how many observations there are in your data and how many variables. The table that follows includes some detail about each variable:
 
-**Storage type** There are two basic data types in Stata: *numeric* and *string* data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str\# (where \# is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:
+**Storage type** There are two basic data types in Stata: *numeric* and *string* data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where \# is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:
 
 | type   | precision | range                            |
 |:-------|:----------|:---------------------------------|
@@ -198,15 +195,15 @@ How would you describe the effect of the modifier `in 1/6`
 
 ## Sorting
 
-The most basic sort command in Stata is `sort`.  This command sorts on a list of variables (at least one) in ascending order.  Run this code in the command window
+The most basic sort command in Stata is `sort`. This command sorts on a list of variables (at least one) in ascending order. Run this code in the command window
 
     sort gender maths
 
-If you list the data now and scroll through the output, you will see it is sorted first by gender ascending and then by maths ascending.  While useful, there is a more flexible command for sorting values.
+If you list the data now and scroll through the output, you will see it is sorted first by gender ascending and then by maths ascending. While useful, there is a more flexible command for sorting values.
 
 ## `gsort`
 
-The command `gsort` also sortson on a list of variables, but you can determine the order by prefixing a variable name with + for ascending order or - for descending order.  Try the following in the command window
+The command `gsort` also sortson on a list of variables, but you can determine the order by prefixing a variable name with + for ascending order or - for descending order. Try the following in the command window
 
     gsort +gender -teacher - maths
 
@@ -216,16 +213,16 @@ Again you should list and scroll and note effect.
 
 In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables. If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
 
-In Stata we can use programming functions that return values. Many functions return vales **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is less greater than *min* and less than *max*. We negate functions with the operator meaning **not**: **!**.
+In Stata we can use programming functions that return values. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
 
 ## Exercise
 
 In your script add the following lines:
 
     gen anomaly = 0
-    replace anomaly = 1 if !inrange(maths,0,50)
+    replace anomaly = 1 if !inrange(maths,0,100)
 
-Are after you run these lines, are there any anomalous cases in your dataset? How many?
+Are after you run these lines, use \`list' to determine if there are any anomalous cases in your dataset. Have you detected any? How many?
 
 The Stata symbol for or is **\|** sometimes called bar or pipe.
 
@@ -237,13 +234,15 @@ In the data for this tutorial, there is one score in `maths` that is clearly out
 
     replace maths = 57 if surname == "DENCIK"
 
-When you have inspected the data to ensure the correction has been made, `restore` the snapshot from before correction.
+When you have inspected the data to ensure the correction has been made, `restore` the snapshot from before correction (This is to ensure that you can complete the next exercise. In a normal situtation you might preserve only at the end of your analysis or simply not save the results of changes you make to your data).
 
 ## Exercise
 
 Correct the anomalous `maths` score, but do not base the replacement on the `surname` variable, rather use only the `maths` values.
 
-# Selecting variables in operations
+# Selecting
+
+## Selecting variables in operations
 
 We will use the command `list` which displays rows of variable values to illustrate the selection of variables.
 
@@ -257,7 +256,23 @@ But, there are times when you wish to select a subset of variables for manipulat
 
 The command `preserve` takes a snapshot of a data set. If we then manipulate or modify the data, we can return to the snapshot state with the command `restore`. You can now use `drop varlist` to remove variables from the workspace or `keep varlist` to specify variables to be kept in the workspace.
 
-Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory.
+## Exercise
+
+Use the `preserve' command to take a snapshot of your data and then`drop`the variables`surname' and `sex'.  List the first ten observations in your data.  Use`restore' to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^basic_operations-1] the effect of preserve and restore.
+
+[^basic_operations-1]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
+
+<!-- Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory. -->
+
+## Selecting cases
+
+If you need to select cases, that is rows from your data, you should use the `if` operator in your command. We will use \`list' again to illustrate. Type the following on the console
+
+     list surname english maths if english > 60 & maths < 50
+
+We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of \*\*regexm() in a compound condition on \`list'.
+
+    list surname english maths if !regexm(surname,"^B") & english > 60 & maths < 60
 
 ## Exercise
 
@@ -267,7 +282,6 @@ Add the following lines to your script
         keep maths english history
         summarize _all
         restore
-        
 
 What is the effect of these lines?
 
@@ -275,9 +289,11 @@ How many variables are in working memory after the `keep` command? How many vari
 
 ## The uses of \_all
 
-The `\_all` macro is obviously useful. but as the exercise shows, it can be more useful combined with `drop` and `keep`. The command `drop varlist` removes variables from the workspace, while `keep varlist` drops all but the named variables.
+Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory.
 
-So, if we want to produce summary statistics for all continuous variables in our data, we can use `keep` followed by the list of names and then calculate the summaries.
+The `\_all` macro is obviously useful. but, it can be more useful combined with `drop` and `keep`. The command `drop varlist` removes variables from the workspace, while `keep varlist` drops all but the named variables.
+
+So, if we want to produce summary statistics for all continuous variables in our data, we can use `keep` followed by the list of names and then calculate the summaries for `_all'.
 
 ## Exercise
 
@@ -296,7 +312,7 @@ Answer these questions:
 
 ## Creating a custom variable list
 
-Since many commands take a list of variables to operate on, it can be useful to create a specific list of variables that you can easily refer to repeatedly. We will do this with a Stata macro.  Stata macros are programming variables or, if you prefer, containers for text.  Stata has both local and global macros and for the most part you will use local macros in your scripts.
+Since many commands take a list of variables to operate on, it can be useful to create a specific list of variables that you can easily refer to repeatedly. We will do this with a Stata macro. Stata macros are programming variables or, if you prefer, containers for text. Stata has both local and global macros and for the most part you will use local macros in your scripts.
 
 Add the following lines to your script
 
@@ -402,14 +418,11 @@ You will see that this gives a brief summary of the variable.
 you can add detail to the summary with the `detail` option
 
     summarize maths english, detail
-    
-  
 
 Summary statistics for continuous numeric variables with the `tabstat` command.
 
     tabstat maths english
-    
+
 and you can specify statistics with the `statistic` option:
 
     tabstat maths english, statistic(median var skew)
-    
