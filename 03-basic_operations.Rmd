@@ -1,4 +1,4 @@
-# Some using Stata basics
+# Some Stata basics
 
 ## Folders
 
@@ -24,7 +24,7 @@ If you do not have a folder for your project (including for this training series
 
     pwd
 
-check the result and make sure that it shows the directory where you want to store your projects. To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
+Check the result and make sure that it shows the directory where you want to store your projects. To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
 
     mkdir ProjectName
     cd ProjectName
@@ -70,13 +70,14 @@ In a new data wrangling script you should
 -   make sure you are in the correct project directory;
 -   clear working memory.
 
-So in your new do file add these lines:
+So to start this process, in your new do file add these lines:
 
     capture log close
     log using "MainProjectName $S_DATE.log", append
 
 or
 
+    capture cmdlog close
     cmdlog using "CommandsProjectName $S_DATE.log", append
 
 to log commands only and not output.
@@ -134,7 +135,7 @@ The Stata `use` command reads in data from Stata format files. Read the main dat
 When you first read a datafile, you should always
 
 -   `describe` the data;
--   check the codebook.
+-   check the `codebook`.
 
 You can do this for the complete set of variables for simple cases, but you may wish to be selective when you have a lot of variables.
 
@@ -163,13 +164,13 @@ This output shows first how many observations there are in your data and how man
 | float  | real      | 8 digits of accuracy             |
 | double | real      | 16 digits of accuracy            |
 
-Format types are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width).
+Format types are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width').
 
 ## Interpretation of codebook
 
 The output of `codebook` shows you the data type of the variables; the range and the numeric unit of measure; the number of unique values in the data; the number of values missing; the mean value for continuous variables; the standard deviation; the percentile values for the 10%, 25%, 50%, 75%, 90% points.
 
-The value of output from `codebook` is enhanced if you have taken care to label variables and values.
+The value of output from `codebook` is enhanced if you have taken care to [Labelling] variables and values.
 
 ## Exercise
 
@@ -183,7 +184,7 @@ To list data in the main results window you use the list command. If you type
 
     list maths english
 
-on the console, Stata will respond by list all observations for those variables. If you don't specify variables Stata use all the variables.
+on the console, Stata will respond by listing all observations for those variables. If you don't specify variables Stata use all the variables.
 
 ## Exercise
 
@@ -211,9 +212,17 @@ Again you should list and scroll and note effect.
 
 # Detecting and correcting
 
-In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables. If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
+In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables.
 
-In Stata we can use programming functions that return values. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
+We could for example use `list` like this
+
+    list surname maths if maths > 100
+
+If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
+
+In Stata we can use programming functions that return values[^basic_operations-1]. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
+
+[^basic_operations-1]: See [Stata 17 Manual: Functions](https://www.stata.com/manuals/fn.pdf "Stata 17 Manual, Functions")
 
 ## Exercise
 
@@ -222,7 +231,7 @@ In your script add the following lines:
     gen anomaly = 0
     replace anomaly = 1 if !inrange(maths,0,100)
 
-Are after you run these lines, use \`list' to determine if there are any anomalous cases in your dataset. Have you detected any? How many?
+Are after you run these lines, use `list` to determine if there are any anomalous cases in your dataset. Have you detected any? How many?
 
 The Stata symbol for or is **\|** sometimes called bar or pipe.
 
@@ -230,7 +239,7 @@ Alter the second line above so that it checks not only `maths` but the `english`
 
 ## Replacing values
 
-In the data for this tutorial, there is one score in `maths` that is clearly out of range. In this case we need to replace the `maths` score for the student with `surname` DENCIK. So we can do that on the Stata command line with a replace command. Preserve the current state of your data with `preserve` and then type this command on the console:
+In the data for this tutorial, there is one score in `maths` that is clearly out of range. In this case we need to replace the `maths` score for the student with `surname` DENCIK. We can do that on the Stata command line with a replace command. for the sake of this exercise, Preserve the current state of your data with `preserve` and then type this command on the console:
 
     replace maths = 57 if surname == "DENCIK"
 
@@ -242,11 +251,11 @@ Correct the anomalous `maths` score, but do not base the replacement on the `sur
 
 # Selecting
 
-Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive. If we are going to subject some subset of our data to a series of operations in a complex process, this method is less attractive than the possibility of making our selection and then passing the resulting data through a pipeline (as R practitioners often do).
+Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive. If we are going to subject some subset of our data to a series of operations in a complex process, this method is less attractive than the possibility of making our selection and then passing the resulting data through a pipeline of commands (as R practitioners often do).
 
-In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-1]
+In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-2]
 
-[^basic_operations-1]: <https://www.stata.com/support/faqs/data-management/selecting-subset-of-observations/>
+[^basic_operations-2]: [How do I select a subset of observations using a complicated criterion?](https://www.stata.com/support/faqs/data-management/selecting-subset-of-obs "How do I select a subset of observations using a complicated criterion?")
 
 ## Selecting variables
 
@@ -264,23 +273,53 @@ The command `preserve` takes a snapshot of a data set. If we then manipulate or 
 
 ## Exercise
 
-Use the `preserve' command to take a snapshot of your data and then`drop`the variables`surname' and `sex'.  List the first ten observations in your data.  Use`restore' to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^basic_operations-2] the effect of preserve and restore.
+Use the `preserve` command to take a snapshot of your data and then drop the variables `surname`and `sex`. List the first ten observations in your data. Use `restore` to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^basic_operations-3] the effect of `preserve` and `restore`.
 
-[^basic_operations-2]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
+[^basic_operations-3]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
 
 <!-- Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory. -->
 
 ## Selecting cases
 
-If you need to select cases, that is rows from your data, you should use the `if` operator in your command. We will use \`list' again to illustrate. Type the following on the console
+If you need to select cases, that is rows from your data, you should use the `if` operator in your command. We will use `list` again to illustrate. Type the following on the console
 
      list surname english maths if english > 60 & maths < 50
 
-We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of **regexm()**in a compound condition on \`list'[^basic_operations-3].
+We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of **regexm()**in a compound condition on `list`[^basic_operations-4].
 
-[^basic_operations-3]: <https://www.stata.com/support/faqs/data-management/regular-expressions/>
+[^basic_operations-4]: [What are regular expressions and how can I use them in Stata?](https://www.stata.com/support/faqs/data-management/regular-expressions/ "What are regular expressions and how can I use them in Stata?")
 
-    list surname english maths if !regexm(surname,"\^B") & english \> 60 & maths \< 60
+    list surname english maths if !regexm(surname,"^B") & english > 60 & maths < 60
+
+## Using a filter variable
+
+A filter variable is a variable created to indicate membership of a sub-group of your data. Using the `generate` command with `if` conditions you can reduce a complex selection operation to a simpler expression. For example, suppose that you wish to select cases where
+
+-   class is three;
+-   maths is less than 55;
+-   history is > 55.
+
+If we first try with a list command we will write
+
+    list if class == 3 & maths < 55 and history > 55
+
+You should find that this lists just seven cases. If we want to continually operate over just these cases for some part of our analysis then rather than writing this complex expression each time, we can generate a variable to act as a filter
+
+    generate filtervar = 1 if class === 3 & maths < 55 & history > 55
+
+and now the selection condition for further operations is reduced to
+
+    if filtervar == 1
+
+This method requires some discipline to remove filter variables (with `drop`) when their work is done.
+
+## The uses of \_all
+
+Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory.
+
+The `_all` macro is obviously useful. but, it can be more useful combined with `drop` and `keep`. The command `drop varlist` removes variables from the workspace, while `keep varlist` drops all but the named variables.
+
+So, if we want to produce summary statistics for all continuous variables in our data, we can use `keep` followed by the list of names and then calculate the summaries for `_all`.
 
 ## Exercise
 
@@ -294,16 +333,6 @@ Add the following lines to your script
 What is the effect of these lines?
 
 How many variables are in working memory after the `keep` command? How many variables are in working memory after the `restore` command?
-
-## The uses of \_all
-
-Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory.
-
-The `\_all` macro is obviously useful. but, it can be more useful combined with `drop` and `keep`. The command `drop varlist` removes variables from the workspace, while `keep varlist` drops all but the named variables.
-
-So, if we want to produce summary statistics for all continuous variables in our data, we can use `keep` followed by the list of names and then calculate the summaries for \`\_all'.
-
-## Exercise
 
 Add the following lines to your script
 
@@ -327,13 +356,13 @@ Add the following lines to your script
     local conts maths english history
     summarize `conts'
 
-Since in this case we don't drop any variables, we don't need to use `preserve` and `restore` to work on a subset of our data.
+Since in this case we don't drop any variables, we don't need to use `preserve` and `restore` to work on a subset of our data unless we otherwise transform any values.
 
 # Labelling
 
 ## Variables
 
-Variable names are not always very human friendly. It is useful therefor to be able to attach a **label** to a variable, especially for using in output such as graphs.
+Variable names are not always very human friendly. It is useful therefor to be able to attach a **label** to a variable, especially for use in output such as graphs.
 
 Add the following line of code to your script
 
@@ -343,7 +372,7 @@ now use the `table` command to view a table of frequencies of the `sex` variable
 
 ## Exercise
 
-Create appropriate labels for the variables in your dataset.
+Create appropriate labels for the variables in your data set.
 
 ## Values
 
@@ -391,12 +420,16 @@ For continuous numeric data you can create box plots and histograms. In your do 
 
     hist maths
 
-You might like to create graphs for a list of variables. First create a macro containing the variable names, then create the histograms. Try the following lines
+You might like to create graphs for a list of variables. You can try to first create a macro containing the variable names, then create the histograms. As in the following lines
 
     global conts maths english history
     hist $conts
 
-Unfortunately, as soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this outcome by creating and exporting the histograns in a program loop. Add the following lines to your script
+Unfortunately, this does not work (since `hist` can only be followed by a single variable) and in any case soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this by creating and exporting the histograms we create in a program [^basic_operations-5].
+
+[^basic_operations-5]: [Loop tutorial from Data Carpentry](https://datacarpentry.org/stata-economics/06-loops/ "Loop tutorial from Data Carpentry")
+
+Add the following lines to your script
 
     foreach var in $conts {
         hist `var'
@@ -407,13 +440,17 @@ Once this loop terminates, you can look in your current directory to find the ex
 
 You can dig deeper into your data by grouping values by any factor (categorical) variables, for example
 
-    graph box $conts, over(sex)
+    graph box $conts, by(sex)
 
 ## Exercise
 
 Create histograms for the `english` and`history` data. How similar or dissimilar do you think these data are?
 
 Create box plots of `maths` for each level of`sex`. How do you think the male and female maths scores compare?
+
+Using your web searching powers, see if you can generate a box plot of maths scores subset by both `sex` and `class`.
+
+Having created the box plot by `sex` above, open Stata's graph editor and add the title to the plot "Maths scores by gender".
 
 ## Summary statistics
 
@@ -427,10 +464,111 @@ you can add detail to the summary with the `detail` option
 
     summarize maths english, detail
 
-Summary statistics for continuous numeric variables with the `tabstat` command.
+Summary statistics for continuous numeric variables can also be created with the `tabstat` command.
 
     tabstat maths english
 
 and you can specify statistics with the `statistic` option:
 
     tabstat maths english, statistic(median var skew)
+
+A Stata command that calculate statistics will display some default output. You can check what is displayed in `help`. However, many routines actually compute more statistics than are displayed. These quantities are stored in the *return list* for the command and can be accessed after it runs. For descriptive statistics, the list is called **r()**. The brackets indicate that **r()** is an array and that we can select particular statistics from the list. Consider
+
+    summarize maths
+
+The default output looks like
+
+        Variable |        Obs        Mean    Std. dev.       Min        Max
+    -------------+---------------------------------------------------------
+           maths |         30    53.76667    6.295501         39         64
+
+If we now use the command `return list` we see
+
+    scalars:
+                      r(N) =  30
+                  r(sum_w) =  30
+                   r(mean) =  53.76666666666667
+                    r(Var) =  39.63333333333333
+                     r(sd) =  6.295501039101918
+                    r(min) =  39
+                    r(max) =  64
+                    r(sum) =  1613
+
+These further can be viewed individually using, for example,
+
+    di r(Var)
+
+and in more advanced procedures you can use them in mathematical expressions.
+
+## Exercise
+
+Compute the summary statistics with detail for `history`. Use the return list from the command and then display the kurtosis of the variable.
+
+## Tables
+
+As well as tables of statistics for continuous data calculated with `tabstat`, you can create tables of frequencies for categorical data. For example
+
+    table sex
+
+You can add percentages and cumulative percentages by using `tab` (short for `tabulate`) instead of table
+
+    tab sex
+
+These commands create one-way tables of frequencies. A two-way table can be created by adding a variable
+
+    tab sex class
+    tabulate sex class
+
+You will see that the difference in output here is cosmetic.
+
+The syntax of table is actually
+
+    table (rowvariables) (columnvariables)
+
+where the parentheses are only required if you have more than one variable in row or column.
+
+## Tables with custom statistics
+
+It is possible to create tables that show expected as well as observed frequency values
+
+    table sex class, expected
+
+and to add specific detail about a continuous variable by using the **command()** option[^basic_operations-6]. For example
+
+[^basic_operations-6]: [See the Stata manual for the command option](https://www.stata.com/manuals/rtable.pdf "See the Stata manual for the command option").
+
+    table (class) (sex),command(r(sd) r(skewness): summarize maths, detail)
+
+You will notice that the `command` option uses values from the **return list** for (in this example) the `summarize` command.
+
+# Hypothesis tests
+
+## For two categorical variables
+
+A common procedure is to test for an association between two categorical variables. We can illustrate this procedure using a tabulation with a $\chi{}^2$ statistic.
+
+    table sex class, expected chi2
+
+## Exercise
+
+Create the table with statistic and expected values as above. Should you reject the *H0* that `sex` and `class` are not associated?
+
+## For one continuous and one categorical variable
+
+If we have one continuous numeric variable and one two level categorical variable (such as sex) that would divide our data into two groups, we can ask ourselves whether the mean of the continuous variable differs for the groups (with *H0* being that they do not).
+
+If our two groups are independent, then we must first ask if the **variance** in the data is more or less equal between groups. The null hypothesis is that the variances are equal. This is tested by the comparison of variances using Stata's `robvar` command. We can test the `maths` scores by `sex` in our data
+
+    robvar maths, by(sex)
+
+## Exercise
+
+Run the `robvar` procedure above. What are the three **W** statistics produced? Which of them tests that the variances are equal for a comparison of means? Is there strong enough evidence in this case to reject the null hypothesis?
+
+We can also compare the same group of subjects on two measures to see if the means differ. In this case there is no need to check the variances before conducting the test. For example we could test whether or not mean scores in English and History differ (with the null hypothesis that they do not)
+
+    ttest english == history
+
+Using this procedure, how do English scores compare to History scorses and how do English scores compare to Mathematics scores?
+
+# Notes
