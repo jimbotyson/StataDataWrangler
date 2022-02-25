@@ -22,3 +22,11 @@ Code to be executed and run by you looks like this:
     or add it to a script and run the script
 
 Generally the tutorial will be explicit about when you should add code to a script.
+
+As the series progresses, I will provide less explicit detail in my instructions.  You will move from 
+
+    type these characters and hit return
+    
+to
+
+"The Stata command for a oneway anova is `oneway`.  Use this command to test the mean of `boodpressure` by `ethnicity`"
