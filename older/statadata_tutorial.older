@@ -1,0 +1,430 @@
+---
+title: "Data Manipulation and Analysis in Stata"
+site: bookdown::bookdown_site
+github-repo: jimbotyson/StataDataWrangler
+output:
+  bookdown::tufte_html_book:
+    toc: true
+    css: toc.css
+---
+
+# Introduction
+
+Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world datasets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this series you will learn how to manipulate raw data and prepare it for analysis and then to carry out simple analysis of yur data. The following topics are covered in the series:
+
+-   Learning to use multiple frames to work on data
+
+-   Merging data sets, with and without frames
+
+-   creating and dropping variables
+
+-   using `preserve` and \`restore
+
+-   creating subsets of d
+
+-   Reshaping data between long and wide form
+
+There are \*\* sections to the tutorial, but each is quite short. There are few lengthy explanations. If you are not using this material in combination with a class, you will sometimes need to google for an explanation.
+
+*Last Updated: `r format(Sys.time(), "%b %d, %Y %l:%M %p")`*
+
+<!--chapter:end:index.Rmd-->
+
+# Acknowledgments
+
+Content of this workshop is based on the following:
+
+- [Data Manipulation in R](https://firecrest.io/tidydata_tutorial/index.html)
+
+Which is Altaf Ali's Excellent web based tutorial on using tidy data in R.
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+<!--chapter:end:01-acknowledgments.Rmd-->
+
+# Getting Started
+
+## Prerequisites
+
+Basic knowledge of working with data in Stata is essential. This course assumes that you're comfortable with reading datasets, working with do files, and navigating the Stata interface.
+
+## Software Requirements
+
+### Stata Release 17 or later.
+
+Recent versions of Stata, 17 or later are required.  You can check your version from the command line with:
+
+```
+version
+```
+
+<!--chapter:end:02-getting_started.Rmd-->
+
+# Some using Stata basics
+
+## Folders
+
+I assume that you have a folder structure like
+
+    Project Folder
+    ├── raw data
+    ├── scripts
+    │   ├── cleanmydata.do
+    │   └── modelmydata.do
+    ├── documentation
+    │   ├── PDFs
+    │   └── Word_docs
+    └──graphs
+
+Of course, other folder set-ups are possible, so be aware of your own as you follow the rest of this guide. The path to my main project folder,for example, is
+
+`c:\users\jt\Documents\Projects\StataWrangling`
+
+## Exercise
+
+If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata if you know how or using your computers user interface.
+
+## Common File types
+
+You will commonly encounter three types of file specific to Stata
+
+-   The .dta file which is Stata's proprietary data format;
+-   The .do file which is Stata's scripting file type;
+-   The .log file which is the file type recording session logs.
+
+# The do file
+
+Do files are Stata's scripts. Simple programs made of text files of Stata commands.
+
+Let's start off by creating a new do file:
+
+    doedit newdo.do
+
+You can also create a new do file editing session from the **Window** menu in Stata.
+
+Clear everything to make sure there's nothing leftover in our environment
+
+    clear all
+
+## Initialising your script
+
+In a new data wrangling script you should
+
+-   start a log;
+-   make sure you are in the correct project directory;
+-   clear working memory.
+
+So in your new do file add these lines:
+
+    capture log close
+    log using "MainProjectName $S_DATE.log", append
+
+or
+
+    cmdlog using "CommandsProjectName $S_DATE.log", append
+
+to log commands only and not output.
+
+## Exercise
+
+Using your internet searching powers, find out why we wrote
+
+    capture log close
+
+at the start of the script, rather than just `log close`.
+
+## Which directory?
+
+Next you should make sure you are in the correct directory.
+
+To check which directory you are currently in type
+
+    pwd
+
+on the Stata console.
+
+Normally for a data wrangling script, this will be the `raw data` directory for the project by adding a line like
+
+    cd c:\users\jt\Documents\Projects\StataWrangling\raw data\
+
+(you must alter this to point at your folder) and then the line
+
+    clear all
+
+to start with a clear workspace.
+
+## Exercise
+
+Close the log file or log files you have created and outside of Stata find the files and view the content.
+
+# Dataset
+
+We're using a dataset of examination results from thirty school students.
+
+These data are in in csv format: comma seperated values. Each case or observation is a row with variables in rows seperated by commas.
+
+The data look something like this:
+
+| surname   | sex | class | maths | english | history |
+|:----------|----:|------:|------:|--------:|--------:|
+| ADAMS     |   2 |     1 |    55 |      63 |      65 |
+| ALI       |   2 |     1 |    52 |      46 |      35 |
+| BAGAL     |   1 |     3 |    51 |      58 |      55 |
+| BENJAMIN  |   1 |     2 |    59 |      70 |      68 |
+| BLAKEMORE |   2 |     2 |    56 |      38 |      40 |
+
+The Stata `use` command reads in data from Stata format files. Read the main data file by adding this command to your do file:
+
+    use https://www.ucl.ac.uk/~ccaajim/results
+
+When you first read a datafile, you should always
+
+-   `describe` the data;
+-   check the codebook.
+
+You can do this for the complete set of variables for simple cases, but you may wish to be selective when you have a lot of variables.
+
+## Data Types
+
+The examination data is quite simple. In your do file add
+
+    describe
+    codebook
+
+And run the do file. This first command produces
+
+![The main Stata results screen showing the output of desc](./images/describeoutput1.png)
+
+## Interpretation of `describe` output
+
+This output shows first how many observations there are in your data and how many variables. The table that follows includes some detail about each variable:
+
+**Storage type** There are two basic data types in Stata: *numeric* and *string* data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str\# (where \# is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:
+
+| type   | precision | range                            |
+|:-------|:----------|:---------------------------------|
+| byte   | integer   | -127 to 100                      |
+| int    | integer   | -32,767 and 32,740               |
+| long   | integer   | -2,147,483,647 and 2,147,483,620 |
+| float  | real      | 8 digits of accuracy             |
+| double | real      | 16 digits of accuracy            |
+
+Format types are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width).
+
+## Interpretation of codebook
+
+The output of `codebook` shows you the data type of the variables; the range and the numeric unit of measure; the number of unique values in the data; the number of values missing; the mean value for continuous variables; the standard deviation; the percentile values for the 10%, 25%, 50%, 75%, 90% points.
+
+The value of output from `codebook` is enhanced if you have taken care to label variables and values.
+
+## Exercise
+
+What are the types and formats of the variables `maths`, `english`, `history`? Why is `maths` different?
+
+# Listing and Sorting
+
+## Listing cases
+
+To list data in the main results window you use the list command. If you type
+
+    list maths english
+
+on the console, Stata will respond by list all observations for those variables. If you don't specify variables Stata use all the variables.
+
+## Exercise
+
+Type following line on the console
+
+    list maths class in 1/6
+
+How would you describe the effect of the modifier `in 1/6`
+
+## Sorting
+
+# Detecting and correcting
+
+In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables. If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
+
+In Stata we can use programming functions that return values. Many functions return vales **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is less greater than *min* and less than *max*. We negate functions with the operator meaning **not** - *!*.
+
+## Exercise
+
+In your script add the following lines:
+
+    gen anomaly = 0
+    replace anomaly = 1 if !inrange(maths,0,50)
+
+Are after you run these lines, are there any anomalous cases in your dataset? How many?
+
+The Stata symbol for or is **\|** sometimes called bar or pipe.
+
+Alter the second line above so that it checks not only `maths` but the `english`, `history` and `avxm` variables as well.
+
+## Replacing values
+
+In the data for this tutorial, there is one score in `maths` that is clearly out of range. In this case we need to replace the `maths` score for the student with `surname` DENCIK. So we can do that on the Stata command line with a replace command. Preserve the current state of your data with `preserve` and then type this command on the console:
+
+    replace maths = 57 if surname == "DENCIK"
+
+When you have inspected the data to ensure the correction has been made, `restore` the snapshot from before correction.
+
+## Exercise
+
+Correct the anomalous `maths` score, but do not base the replacement on the `surname` variable, rather use only the `maths` values.
+
+# Selecting variables in operations
+
+We will use the command `list` which displays rows of variable values to illustrate the selection of variables.
+
+With most commands, variables can be included in the *varlist* that follows a command name. So on the command line we can type
+
+    list maths english history
+
+which displays all the values for those three variables. Much of the time this is the only selection of variables you need.
+
+But, there are times when you wish to select a subset of variables for manipulation perhaps for a series of operations. In this case we can use `preserve` and `restore`.
+
+The command `preserve` takes a snapshot of a data set. If we then manipulate or modify the data, we can return to the snapshot state with the command `restore`. You can now use `drop varlist` to remove variables from the workspace or `keep varlist` to specify variables to be kept in the workspace.
+
+Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory.
+
+## Exercise
+
+Add the following lines to your script
+
+        preserve
+        keep maths english history
+        summarize _all
+        restore
+        
+
+What is the effect of these lines?
+
+How many variables are in working memory after the `keep` command? How many variables are in working memory after the `restore` command?
+
+## The uses of \_all
+
+The `\_all` macro is obviously useful. but as the exercise shows, it can be more useful combined with `drop` and `keep`. The command `drop varlist` removes variables from the workspace, while `keep varlist` drops all but the named variables.
+
+So, if we want to produce summary statistics for all continuous variables in our data, we can use `keep` followed by the list of names and then calculate the summaries.
+
+## Exercise
+
+Add the following lines to your script
+
+    preserve
+    keep maths english history
+    tabstat _all, statistics(mean sd var kurt skew)
+    restore
+
+Answer these questions:
+
+1.  What is the Skewness of the **mathematics** scores?
+2.  Which scores show more variability, **English** or **History**?
+3.  Which subject has the lowest mean score?
+
+## Creating a custom variable list
+
+Since many commands take a list of variables to operate on, it can be useful to create a specific list of variables that you can easily refer to repeatedly. We will do this with a Stata `global` macro.
+
+Add the following lines to your script
+
+    global conts maths english history
+    summarize $conts
+
+Since in this case we don't drop any variables, we don't `preserve` and `restore`.
+
+# Labelling
+
+## Variables
+
+Variable names are not always very human friendly. It is useful therefor to be able to attach a **label** to a variable, especially for using in output such as graphs.
+
+Add the following line of code to your script
+
+    label variable sex "Gender"
+
+now use the `table` command to view a table of frequencies of the `sex` variable. What has been the effect of your line of code?
+
+## Exercise
+
+Create appropriate labels for the variables in your dataset.
+
+## Values
+
+When we code some categorical variables, we will often use a *code* to represent the different possible values. for example, we might code eyecolour as
+
+| Code | Meaning |
+|:-----|:--------|
+| 1    | Brown   |
+| 2    | Blue    |
+| 3    | Grey    |
+| 4    | Green   |
+| 5    | Other   |
+
+The use of numeric codes is very convenient in many circumstances, but it is not very human friendly. We would also like to put more meaningful labels for the values on output such as tables and graphs. To do this we create a **label set** and apply it to the variable values.
+
+The label set is a list of codes and meanings create by a command like
+
+    label define eyecolourlabels 1 "Brown" 2 "Blue" 3 "Grey" 4 "Green" 5 "Other"
+
+We apply the labels to values of a variable `eyecolour` with a command like
+
+    label values eyecolour eyecolourlabels
+
+## Exercise
+
+Create an appropriate label set for the variable `sex` in your data set and apply it to the values of `sex`. Use the `list` command to check the results. What do you see?
+
+# Some exploratory analysis
+
+Before embarking on the systematic modelling and testing of data, you may wish to explore its broad outline. There are several useful Stata procedures for this task:
+
+-   simple visualisatons:
+
+    -   box plots;
+    -   histograms;
+    -   bar charts;
+
+-   summary statistics;
+
+-   tables.
+
+## Simple visualisations
+
+For continuous numeric data you can create box plots and histograms. In your do file add the line
+
+    hist maths
+
+You might like to create graphs for a list of variables. First create a macro containing the variable names, then create the histograms. Try the following lines
+
+    global conts maths english history
+    hist $conts
+
+Unfortunately, as soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this outcome by creating and exporting the histograns in a program loop. Add the following lines to your script
+
+    foreach var in $conts {
+        hist `var'
+        graph export `var'.png
+    }
+
+Once this loop terminates, you can look in your current directory to find the exported graphs.
+
+You can dig deeper into your data by grouping values by any factor (categorical) variables, for example
+
+    graph box $conts, over(sex)
+
+## Exercise
+
+Create histograms for the `english` and`history` data. How similar or dissimilar do you think these data are?
+
+Create box plots of `maths` for each level of`sex`. How do you think the male and female maths scores compare?
+
+## Summary statistics
+
+Quick summary statistics for continuous numeric variables can be calculated with the `summarize` command. Try the command
+
+    summarize maths
+
+<!--chapter:end:03-basic_operations.Rmd-->
+
