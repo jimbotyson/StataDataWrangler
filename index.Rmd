@@ -7,8 +7,6 @@ output:
     
 ---
 
-<!-- toc: true -->
-<!--     css: toc.css -->
 
 # Introduction
 

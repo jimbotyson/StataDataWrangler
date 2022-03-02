@@ -1,0 +1,82 @@
+# Hypothesis tests
+
+## For two categorical variables
+
+A common procedure is to test for an association between two categorical variables. We can illustrate this procedure using a tabulation with a $\chi{}^2$ statistic.
+
+    table sex class, expected chi2
+
+## Exercise
+
+Create the table with statistic and expected values as above. Should you reject the *H0* that `sex` and `class` are not associated?
+
+## For one continuous and one categorical variable of two levels
+
+If we have one continuous numeric variable and one two level categorical variable (such as sex) that would divide our data into two groups, we can ask ourselves whether the mean of the continuous variable differs for the groups (with *H0* being that they do not).
+
+If our two groups are independent, then we must first ask if the **variance** in the data is more or less equal between groups. The null hypothesis is that the variances are equal. This is tested by the comparison of variances using Stata's `robvar` command. We can test the `maths` scores by `sex` in our data
+
+    robvar maths, by(sex)
+    
+Knowing whether or not we are dealing with groups displaying (more or less) equal variance in the variable of interest, we can go on to conduct an **independent samples t-test**.  The code is
+
+    ttest maths, by(sex)
+    
+(Assuming that we have interpreted the results of `robvar` to mean the variance in maths for the two groups is equal).    
+
+## Exercise
+
+Run the `robvar` procedure above but for the `history` and `gender` variables. What are the three **W** statistics produced? Which of them tests that the variances are equal for a comparison of means? Is there strong enough evidence in this case to reject the null hypothesis?
+
+Use the `ttest` command to test the null hypothesis that 
+
+$$\mu{}\ english _{\ female \ students} = \mu \ english _{\ male\ students}$$
+
+What conclusion do you draw?
+
+## The paired samples ttest
+
+We can also compare the same group of subjects on two measures to see if the means differ. In this case there is no need to check the variances before conducting the test. For example we could test whether or not mean scores in English and History differ (with the null hypothesis that they do not)
+
+    ttest english == history
+
+Using this procedure, how do English scores compare to History scores and how do English scores compare to Mathematics scores?
+
+## Once continuous and one categorical variable of more than two levels
+
+We can compare the level `avxm` by `teacher`, this is to say test the null hypothesis
+
+$$\mu{}\ avxm \ _{teacher \ one} = \mu \mu{}\ avxm \ _{teacher \ two} = \mu{}\ avxm \ _{teacher \ three} $$
+
+### One way ANOVA and post-hoc testing
+
+The Stata command to test the null hypothesis above is
+
+
+    oneway maths teacher, bonferroni tabulate
+    
+This command produces summary statistics the ANOVA statistic **F**, its associated probability, and other quantities calculated as part of the ANOVA.  In the version given above, we have included a tabulation of pairwise comparisons using the *bonferroni* correction.  We can separately exaine the pairwise comparisons if we wish with
+
+    pwmean avxm, over(teacher) mcompare(bonferroni) effects
+
+This method does not display the ANOVA table itself and the **mcompare()** option gives us access to a slightly different range of correction options.
+
+
+## Two continuous variables
+
+## Correlation
+
+Analysis of two continuous variables begins with calculating the **Pearson Correlation Coefficient R**.  This statistic ranges from
+
+ - -1 indicating an inverse or negative correlation
+ - 0 indicating no correlation
+ - +1 indicating a positive correlation
+ 
+We should take note that a correlation has not only magnitude and direction, but that there is an associated hypothesis test: the the true correlation is 0.  This test gives a **p value** associated with **R**.
+
+
+
+## Simple Regression
+
+# Notes
+

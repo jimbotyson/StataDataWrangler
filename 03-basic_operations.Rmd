@@ -249,7 +249,10 @@ When you have inspected the data to ensure the correction has been made, `restor
 
 Correct the anomalous `maths` score, but do not base the replacement on the `surname` variable, rather use only the `maths` values.
 
-# Generating new values
+# Generating new values and recoding existing values
+
+
+## New values
 
 There are two commands that generate new values in Stata: `generate` and `egen` (extended generate).  The first is a very fast, basic Stata command and should be used whenever simple arithmetic or other manipulation of your data will create the new values, for example
 
@@ -269,6 +272,11 @@ Both commands can be used in conjunction with `replace` to achieve complex opera
 #Exercise
 
 Use either of `generate` or `egen` to care a new variable `avxm` that is the mean of the three scores, `maths`, `english`, and `history`.
+
+## Recoding values
+
+It is not unusual to need to change the coding of a measure.  For instance, we may have a continuous variable that we wish to recode into groups (perhaps giving a ranked variable).  We can do this 
+
 # Selecting
 
 Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive. If we are going to subject some subset of our data to a series of operations in a complex process, this method is less attractive than the possibility of making our selection and then passing the resulting data through a pipeline of commands (as R practitioners often do).
@@ -563,69 +571,3 @@ and to add specific detail about a continuous variable by using the **command()*
 
 You will notice that the `command` option uses values from the **return list** for (in this example) the `summarize` command.
 
-# Hypothesis tests
-
-## For two categorical variables
-
-A common procedure is to test for an association between two categorical variables. We can illustrate this procedure using a tabulation with a $\chi{}^2$ statistic.
-
-    table sex class, expected chi2
-
-## Exercise
-
-Create the table with statistic and expected values as above. Should you reject the *H0* that `sex` and `class` are not associated?
-
-## For one continuous and one categorical variable of two levels
-
-If we have one continuous numeric variable and one two level categorical variable (such as sex) that would divide our data into two groups, we can ask ourselves whether the mean of the continuous variable differs for the groups (with *H0* being that they do not).
-
-If our two groups are independent, then we must first ask if the **variance** in the data is more or less equal between groups. The null hypothesis is that the variances are equal. This is tested by the comparison of variances using Stata's `robvar` command. We can test the `maths` scores by `sex` in our data
-
-    robvar maths, by(sex)
-    
-Knowing whether or not we are dealing with groups displaying (more or less) equal variance in the variable of interest, we can go on to conduct an **independent samples t-test**.  The code is
-
-    ttest maths, by(sex)
-    
-(Assuming that we have interpreted the results of `robvar` to mean the variance in maths for the two groups is equal).    
-
-## Exercise
-
-Run the `robvar` procedure above but for the `history` and `gender` variables. What are the three **W** statistics produced? Which of them tests that the variances are equal for a comparison of means? Is there strong enough evidence in this case to reject the null hypothesis?
-
-Use the `ttest` command to test the null hypothesis that 
-
-$$\mu{}\ english _{\ female \ students} = \mu \ english _{\ male\ students}$$
-
-What conclusion do you draw?
-
-## The paired samples ttest
-
-We can also compare the same group of subjects on two measures to see if the means differ. In this case there is no need to check the variances before conducting the test. For example we could test whether or not mean scores in English and History differ (with the null hypothesis that they do not)
-
-    ttest english == history
-
-Using this procedure, how do English scores compare to History scores and how do English scores compare to Mathematics scores?
-
-## Once continuous and one categorical variable of more than two levels
-
-We can compare the level `avxm` by `teacher`, this is to say test the null hypothesis
-
-$$\mu{}\ avxm \ _{teacher \ one} = \mu \mu{}\ avxm \ _{teacher \ two} = \mu{}\ avxm \ _{teacher \ three} $$
-
-### One way ANOVA and post-hoc testing
-
-The Stata command to test the null hypothesis above is
-
-    pwmean avxm, over(teacher) mcompare(bonferroni) effects
-
-
-
-
-## Two continuous variables
-
-## Correlation
-
-## Simple Regression
-
-# Notes
