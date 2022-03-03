@@ -33,7 +33,7 @@ to
 
 ## Completion status
 
-As of `r today()` the final section of the tutorial on **regression* is not yet complete.
+As of `r Sys.date()` the final section of the tutorial on **regression* is not yet complete.
 
 ## Data
 
