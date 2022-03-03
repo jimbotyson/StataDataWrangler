@@ -30,3 +30,26 @@ As the series progresses, I will provide less explicit detail in my instructions
 to
 
 "The Stata command for a oneway anova is `oneway`.  Use this command to test the mean of `boodpressure` by `ethnicity`"
+
+## Completion status
+
+As of `r today()` the final section of the tutorial on **regression* is not yet complete.
+
+## Data
+
+The data file to be used in most exercises and examples is to be loaded from
+
+    https://www.ucl.ac.uk/~ccaajim/results
+    
+## Reference material
+
+The best source of learning material is at
+
+    https://stats.oarc.ucla.edu/stata/
+
+and you should download the cheat sheets from
+
+    https://www.stata.com/bookstore/stata-cheat-sheets/
+    
+
+   
