@@ -6,3 +6,4 @@ rmd_files:
   - 01-acknowledgments.Rmd
   - 02-getting_started.Rmd
   - 03-basic_operations.Rmd
+  - 04-tests_and_models.Rmd
