@@ -6,8 +6,6 @@ These tutorials assume no knowledge of Stata but do assume that you are comforta
 
 ## Software Requirements
 
-### Stata Release 17 or later.
-
 Recent versions of Stata, 17 or later are required. You can check your version from the command line[^getting_started-1] with `version`.
 
 [^getting_started-1]: See [Stata features page](https://www.stata.com/features/overview/graphical-user-interface/ "https://www.stata.com/features/overview/graphical-user-interface/").
@@ -50,6 +48,12 @@ The best source of learning material is at
 and you should download the cheat sheets from
 
     https://www.stata.com/bookstore/stata-cheat-sheets/
-    
+
+## To be added
+
+ - use of frames;
+ - reshaping data sets.
+ 
+ 
 
    

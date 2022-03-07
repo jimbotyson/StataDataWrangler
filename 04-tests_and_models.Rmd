@@ -137,6 +137,74 @@ Using any resources you can find, try to find more Stata graph schemes and try a
 
 The most basic regression command in Stata is `regress`. The syntax is
 
-    regress y-variable x-variable(s), options
+    regress y-variable x-variable(s)[, options]
+
+The results include an ANOVA table and a table of coefficients. The ANOVA table has measures associated with the $H0$ that this model is no better than a model with no predictor variables. You should read [Regression analysis, annotated output](https://stats.oarc.ucla.edu/stata/output/regression-analysis) for help understanding the results.
+
+The important components of the coefficient table are
+
+-   \_cons: the intercept
+-   beta coefficient ($m$) and it's associated $t$ score with $p$ value and confidence interval.
+
+## Exercise
+
+Run a simple linear regression with `history` as the dependent variable (the *y* variable) and `english` as the single, independent variable (the *x* variable).
+
+-   Is this model better than a model with **no** predictor variables?
+-   Fill out the coefficients in the equation for the line $y=mx+\beta{}$;\
+-   Overall, what portion of the variance in `history` can be attributed to variance in `english`;
+-   Is it plausible that the true value of $m$ (the slope of the line of best fit) is 0?
+
+## Multiple linear regression
+
+The command is
+
+    regress y-variable x-variable1 x-variable2...x-variablen [,options]
+
+## Exercise
+
+Using California Department of Education's API 2000 dataset from
+
+    https://stats.idre.ucla.edu/stat/stata/webbooks/reg/elemapi
+
+investigate the academic performance of schools (api00) with respect to average k3 class size, the percentage of students receiving free meals and the percentage of teachers holding full teaching credentials. Would you say that any or all of these factors affect a schools performance?
+
+## Regression with categorical variables
+
+It is possible to include categorical variables in a regression model. For instance
+
+    regress avxm i.class
+
+The prefix *i.* signals to Stata this this variable should be treated as a factor. Stata will effectively recode this as two dummy, binary variables class_2 and class_3. So the possibilities are
+
+| Class_2 | Class_3 | Original class |
+|:-------:|:-------:|:--------------:|
+|    1    |    0    |       2        |
+|    0    |    1    |       3        |
+|    0    |    0    |       1        |
+
+: Dummy encoding of the class variable
+
+If we recall equation for the linear model $y = mx_{1} + mx_{2}...+...mx_n$, then we can see it applies unchanged for this new regression, except that for each coefficient, $x$ ranges over only 0 or 1.
+
+Here is the result from Stata:
+
+![Output from a regression with dummy binary variables.](images/catreg.PNG "Output from regression with dummy variables")
+
+Here, the intercept (`_cons`) is the average of the dependent variable - of `avxm` - when class is equal to the base category, which in this case is class one. For class two, the value of y is
+
+$$(3.59*1)+(6.64*0)+52.46$$
+and for class three
+
+$$(3.59*0)+(6.64*1)+52.46$$
+To further underline the nature of a regression with categorical independent variables, you can compare the results of this regression with the output form Stata's `oneway` and `pwmean` commands.  You will see that the differences in means and the statistics and associated $p$ value .
+
+## Exercise
+
+Run a one way ANOVA test comparing `avxm` by level of `class`.  Add the post hoc pairwise tests with Bonferroni correction.  
+
+Run a `pwmean` procedure for `avxm` over `class`.  
+
+How would you say the results from these compare with the regression above?
 
 # Notes
