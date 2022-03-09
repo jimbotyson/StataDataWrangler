@@ -1,8 +1,2 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-*.pptx
-*.html
-/_book/*
-oldstatadatatutorial.mk
+labelling.html
+some-using-stata-basics.html
