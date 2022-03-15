@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-These tutorials assume no knowledge of Stata but do assume that you are comfortable using a computer with a modern user interface (for example Windows, MacOs, linux with Ubuntu) and that you will be ok typing commands in a console or a script. You will also need to learn how to navigate a folder or directory tree.
+These tutorials assume no knowledge of Stata but do assume that you are comfortable using a computer with a modern user interface (for example Windows, MacOs, linux with Ubuntu) and that you will be happy typing commands in a console or a script. You will also need to learn how to navigate a folder or directory tree.
 
 ## Software Requirements
 
@@ -31,7 +31,7 @@ to
 
 ## Completion status
 
-As of `r Sys.Date()` the final section of the tutorial on **regression* is not yet complete.
+As of `r Sys.Date()` the final section of the tutorial on **regression** is not yet complete.
 
 ## Data
 

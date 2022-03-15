@@ -20,11 +20,11 @@ I assume that you have a folder structure something like
 
 ## Exercise
 
-If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata. First
+If you do not have a folder for your project (including for this training series project!), create one now with subfolders as above. You do not need to create the two do files in the scripts folder. You can do this in Stata. First type
 
     pwd
 
-Check the result and make sure that it shows the directory where you want to store your projects. To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
+and then hit `enter`. Check the result and make sure that it shows the directory where you want to store your projects. To create the structure, you will find it easier right now using your computer's graphical user interface, but in case you want to do it in Stata, type the following Stata commands on the console (the command window), following each by return (replace ProjectName with a suitable name for your project)
 
     mkdir ProjectName
     cd ProjectName
@@ -35,10 +35,10 @@ Check the result and make sure that it shows the directory where you want to sto
     cd documentation
     mkdir PDFs
     mkdir Word_docs
-    cd ../..
+    cd ..
     pwd
 
-Check that you end up back in your main project folder.
+Check that you end up back in your new project folder.
 
 ## Common File types
 
@@ -52,7 +52,7 @@ You will commonly encounter three types of file specific to Stata
 
 Do files are Stata's scripts. Simple programs made of text files of Stata commands.
 
-Let's start off by creating a new do file:
+Let's start off by creating a new do file, type
 
     doedit newdo.do
 
@@ -102,11 +102,11 @@ on the Stata console.
 
 ## Change to your data directory
 
-Change directory to the folder that will hold your project's raw data files (that is data that you have not processed or transformed). Normally for a data wrangling script, this will be the `raw_data` directory for the project by typing a line like
+Change directory to the folder that will hold your project's raw data files (that is data that you have not processed or transformed). Normally for a data wrangling script, this will be the `raw_data` directory for the project and you change to that directory by typing a line like
 
     cd c:\users\jt\Documents\Projects\StataWrangling\raw_data\
 
-(you must alter this to point at your folder). When you write code to read a raw data file, you will want to make sure that it is read into this diredctory.
+(you must alter this to point at your folder). When you write code to read a raw data file, you will want to make sure that it is read into this directory.
 
 ## Exercise
 
@@ -116,7 +116,9 @@ Close the log file or log files you have created and outside of Stata find the f
 
 We're using a dataset of examination results from thirty school students.
 
-These data are in in csv format: comma seperated values. Each case or observation is a row with variables in rows seperated by commas.
+These data are in Stata format. Each case or observation is a row with variables in columns[^basic_operations-1].
+
+[^basic_operations-1]: Or almost, this data is in **wide** rather then **long** format, so it is not strictly tidy.
 
 The data look something like this:
 
@@ -154,7 +156,9 @@ And run the do file. This first command produces
 
 This output shows first how many observations there are in your data and how many variables. The table that follows includes some detail about each variable:
 
-**Storage type** There are two basic data types in Stata: *numeric* and *string* data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where \# is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:
+### Storage type 
+
+There are two basic data types in Stata: *numeric* and *string* data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where \# is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:
 
 | type   | precision | range                            |
 |:-------|:----------|:---------------------------------|
@@ -164,13 +168,15 @@ This output shows first how many observations there are in your data and how man
 | float  | real      | 8 digits of accuracy             |
 | double | real      | 16 digits of accuracy            |
 
-Format types are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width').
+### Format types 
+
+These are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width').
 
 ## Interpretation of codebook
 
 The output of `codebook` shows you the data type of the variables; the range and the numeric unit of measure; the number of unique values in the data; the number of values missing; the mean value for continuous variables; the standard deviation; the percentile values for the 10%, 25%, 50%, 75%, 90% points.
 
-The value of output from `codebook` is enhanced if you have taken care to [Labelling] variables and values.
+The value of output from `codebook` is enhanced if you have taken care to (#Labelling) [label] variables and values.
 
 ## Exercise
 
@@ -214,15 +220,17 @@ Again you should list and scroll and note effect.
 
 In the data as you find it, there is an anomalous maths score. We can find this my simple inspection of the data because we have a small data set and few variables.
 
-We could for example use `list` like this
+We could for example use `list` with an `if` condition, like this
 
-    list surname maths if maths > 100
+    list surname maths if maths > 100 
+
+which woulid list any cases with a `maths` value greater than the allowable maximum.
 
 If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
 
-In Stata we can use programming functions that return values[^basic_operations-1]. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
+In Stata we can use programming functions that return values[^basic_operations-2]. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
 
-[^basic_operations-1]: See [Stata 17 Manual: Functions](https://www.stata.com/manuals/fn.pdf "Stata 17 Manual, Functions")
+[^basic_operations-2]: See [Stata 17 Manual: Functions](https://www.stata.com/manuals/fn.pdf "Stata 17 Manual, Functions")
 
 ## Exercise
 
@@ -231,7 +239,9 @@ In your script add the following lines:
     gen anomaly = 0
     replace anomaly = 1 if !inrange(maths,0,100)
 
-after you run these lines, use `list` to determine if there are any anomalous cases in your data set. Have you detected any? How many?
+## Exercise
+
+After you run the lines above, use `list` with `if` to determine if there are any anomalous cases in your data set. Have you detected any? How many?
 
 The Stata symbol for or is **\|** sometimes called bar or pipe.
 
@@ -239,7 +249,7 @@ Alter the second line above so that it checks not only `maths` but the `english`
 
 ## Replacing values
 
-In the data for this tutorial, there is one score in `maths` that is clearly out of range. In this case we need to replace the `maths` score for the student with `surname` DENCIK. We can do that on the Stata command line with a replace command. for the sake of this exercise, Preserve the current state of your data with `preserve` and then type this command on the console:
+In the data for this tutorial, there is one score in `maths` that is clearly out of range. In this case we need to replace the `maths` score for the student with `surname` DENCIK. We can do that on the Stata command line with a replace command. For the sake of this exercise, snapshot the current state of your data with `preserve` and then type this command on the console:
 
     replace maths = 57 if surname == "DENCIK"
 
@@ -271,7 +281,7 @@ replace avxm = .a if avxm \< 40
 
 ## Exercise
 
-Use either of `generate` to create a new variable `avxm` that is the mean of the three scores, `maths`, `english`, and `history`. Round the result to show no decimal places.
+Use either of `generate` to create a new variable `avxm` that is the mean of the three scores, `maths`, `english`, and `history`. Round the result to show no decimal places.(Read the Stata help on the `round()` function).
 
 ## Recoding values
 
@@ -281,41 +291,38 @@ Suppose that having calculated `avxm` as average examination score for each stud
 
 When you undertake a more complicated data management task, it is very helpful to write out in pseudo-English what you want to do. So, I want to apply this rule to my data:
 
-<span style="color: red;">
-&nbsp;&nbsp;&nbsp;&nbsp;If avxm >= 60, stream = "high",<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if avxm < 60 & avxm > 50, stream = "mid",<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if avxm < 50, stream = "low"
-</span>
+[     If avxm \>= 60, stream = "high",]{style="color: red;"}<br>         if avxm \< 60 & avxm \> 50, stream = "mid",<br>             if avxm \< 50, stream = "low"
 
 I have purposefully written this out in the most explicity way. Now I'm going to reduce the complexity a little:
 
-<span style="color: red;">
-&nbsp;&nbsp;&nbsp;&nbsp;If avxm >= 60, stream = "high",<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if avxm < 50, stream = "low",<br>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else stream = "mid"
-</span>
+[     If avxm \>= 60, stream = "high",]{style="color: red;"}<br>         if avxm \< 50, stream = "low",<br>             else stream = "mid"
 
 In this version I don't have to spell out the compound condition. Win!
 
-Now, to write this in something approaching Stata, I will move the default 'else' condition to the top and use `gen` and `replace` with `if` to get my new variable:
+Now, to write this in Stata, I will move the default 'else' condition to the top and use `gen` and `replace` with `if` to get my new variable:
 
-    gen stream = 2 // the else or default condition
-    replace stream = 3 if avxm >= 60
-    replace stream = 1 if avxm < 50
+    gen stream = 2 //the else or default condition
+    replace stream = 3 if avxm >= 60 //cut off the top
+    replace stream = 1 if avxm < 50 //cut off the bottom
 
-So I often prefer a numeric code to a string variable. Notice that I have useds 3 for "high" against my own prejudice that it should be 1. In this way Stata and I will agree about ordering the data. I will explicitly label the data later to make it easier to read.
+I often prefer a numeric code to a string variable. Notice that I have used 3 for "high" against my own prejudice that it should be 1. In this way Stata and I will agree about ordering the data. I will explicitly label the data later to make it easier to read.
 
 ## Exercise
 
-Examine the first ten cases in the data. Do they appear to be assigned to the correct stream according to the rule above?
+Examine the first ten cases in the data. Do they appear to be assigned to the correct `stream` according to the rule above?
+
+Read [these instructions on using `cut`](https://stats.oarc.ucla.edu/stata/faq/how-can-i-recode-continuous-variables-into-groups/) and then use `cut` to create a new variable with the same distribution as `ranking` - give the variable any new name you like.
 
 # Selecting
 
-Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive. If we are going to subject some subset of our data to a series of operations in a complex process, this method is less attractive than the possibility of making our selection and then passing the resulting data through a pipeline of commands (as R practitioners often do).
+Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive and sometimes we should consider
 
-In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-2]
+ - temporarily reducing the dataset in memory and operating over all data;
+ - creating a **filter** variable to reduce complex selection expressions.
+ 
+In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-3]
 
-[^basic_operations-2]: [How do I select a subset of observations using a complicated criterion?](https://www.stata.com/support/faqs/data-management/selecting-subset-of-observations/ "How do I select a subset of observations using a complicated criterion?")
+[^basic_operations-3]: [How do I select a subset of observations using a complicated criterion?](https://www.stata.com/support/faqs/data-management/selecting-subset-of-observations/ "How do I select a subset of observations using a complicated criterion?")
 
 ## Selecting variables
 
@@ -333,9 +340,9 @@ The command `preserve` takes a snapshot of a data set. If we then manipulate or 
 
 ## Exercise
 
-Use the `preserve` command to take a snapshot of your data and then drop the variables `surname`and `sex`. List the first ten observations in your data. Use `restore` to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^basic_operations-3] the effect of `preserve` and `restore`.
+Use the `preserve` command to take a snapshot of your data and then drop the variables `surname` and `sex`. List the first ten observations in your data. Use `restore` to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^basic_operations-4] the effect of `preserve` and `restore`.
 
-[^basic_operations-3]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
+[^basic_operations-4]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
 
 <!-- Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory. -->
 
@@ -345,11 +352,13 @@ If you need to select cases, that is rows from your data, you should use the `if
 
      list surname english maths if english > 60 & maths < 50
 
-We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of **regexm()**in a compound condition on `list`[^basic_operations-4] .
+We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of **regexm()**in a compound condition on `list` [^basic_operations-5] .
 
-[^basic_operations-4]: [What are regular expressions and how can I use them in Stata?](https://www.stata.com/support/faqs/data-management/regular-expressions/ "What are regular expressions and how can I use them in Stata?")
+```
+list surname english maths if !regexm(surname,"\^B") & english \> 60 & maths \< 60
+```
 
-    list surname english maths if !regexm(surname,"^B") & english > 60 & maths < 60
+[^basic_operations-5]: [What are regular expressions and how can I use them in Stata?](https://www.stata.com/support/faqs/data-management/regular-expressions/ "What are regular expressions and how can I use them in Stata?")
 
 ## Using a filter variable
 
@@ -485,9 +494,9 @@ You might like to create graphs for a list of variables. You can try to first cr
     local conts maths english history
     hist `conts'
 
-Unfortunately, this does not work (since `hist` can only be followed by a single variable) and in any case soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this by creating and exporting the histograms we create in a program [^basic_operations-5].
+Unfortunately, this does not work (since `hist` can only be followed by a single variable) and in any case soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this by creating and exporting the histograms we create in a program [^basic_operations-6].
 
-[^basic_operations-5]: [Loop tutorial from Data Carpentry](https://datacarpentry.org/stata-economics/06-loops/ "Loop tutorial from Data Carpentry")
+[^basic_operations-6]: [Loop tutorial from Data Carpentry](https://datacarpentry.org/stata-economics/06-loops/ "Loop tutorial from Data Carpentry")
 
 Add the following lines to your script
 
@@ -500,7 +509,7 @@ Once this loop terminates, you can look in your current directory to find the ex
 
 You can dig deeper into your data by grouping values by any factor (categorical) variables, for example
 
-    graph box $conts, by(sex)
+    graph box `conts', by(sex)
 
 ## Exercise
 
@@ -508,7 +517,7 @@ Create histograms for the `english` and`history` data. How similar or dissimilar
 
 Create box plots of `maths` for each level of`sex`. How do you think the male and female maths scores compare?
 
-Using your web searching powers, see if you can generate a box plot of maths scores subset by both `sex` and `class`.
+Using your web searching powers, see if you can generate a box plot of maths scores that is subset by both `sex` and `class`.  You should look out for mention of an option `over'.
 
 Having created the box plot by `sex` above, open Stata's graph editor and add the title to the plot "Maths scores by gender".
 
@@ -558,7 +567,7 @@ These further can be viewed individually using, for example,
 
     di r(Var)
 
-and in more advanced procedures you can use them in mathematical expressions.
+and in more advanced procedures you can use them in **collections** and in mathematical expressions.
 
 ## Exercise
 
@@ -593,11 +602,10 @@ It is possible to create tables that show expected as well as observed frequency
 
     table sex class, expected
 
-and to add specific detail about a continuous variable by using the **command()** option[^basic_operations-6]. For example:
+and to add specific detail about a continuous variable by using the **command()** option[^basic_operations-7]. For example:
 
     table (class) (sex),command(r(sd) r(skewness): summarize maths, detail)
 
-    
 You will notice that the `command` option uses values from the **return list** for (in this example) the `summarize` command.
 
-[^basic_operations-6]: [See the Stata manual for the command option](https://www.stata.com/manuals/rtable.pdf "See the Stata manual for the command option").
+[^basic_operations-7]: [See the Stata manual for the command option](https://www.stata.com/manuals/rtable.pdf "See the Stata manual for the command option").
