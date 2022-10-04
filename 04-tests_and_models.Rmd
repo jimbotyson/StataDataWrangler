@@ -197,7 +197,7 @@ $$(3.59*1)+(6.64*0)+52.46$$
 and for class three
 
 $$(3.59*0)+(6.64*1)+52.46$$
-To further underline the nature of a regression with categorical independent variables, you can compare the results of this regression with the output form Stata's `oneway` and `pwmean` commands.  You will see that the differences in means and the statistics and associated $p$ value .
+To further underline the nature of a regression with categorical independent variables, you can compare the results of this regression with the output form Stata's `oneway` and `pwmean` commands.  You will see that the differences in means and the statistics and associated $p$ value  are identical to those in your regression output.
 
 ## Exercise
 
