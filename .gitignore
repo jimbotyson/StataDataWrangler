@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .Rproj.user
 .Rhistory
 .RData
@@ -7,3 +8,7 @@
 _book
 oldstatadatatutorial.mk
 _bookdown_files
+=======
+labelling.html
+some-using-stata-basics.html
+>>>>>>> 62fa69897bf604bac1668b82872a3ffa536ee187
