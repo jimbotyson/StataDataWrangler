@@ -207,4 +207,14 @@ Run a `pwmean` procedure for `avxm` over `class`.
 
 How would you say the results from these compare with the regression above?
 
+Import the data from this file:
+
+https://www.ucl.ac.uk/~ccaajim/medtrial.csv
+
+Convert the variable gender to a numeric variable so that you can use it as a factor in a regression.
+
+Run a regression analysis with **hafter** as the dependent variable and **age** and **gender** as the independent variables.  Test also for any interaction.
+
+How do you interpret the results?
+
 # Notes

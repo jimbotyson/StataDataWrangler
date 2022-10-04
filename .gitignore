@@ -4,5 +4,6 @@
 .Ruserdata
 *.pptx
 *.html
-/_book/*
+_book
 oldstatadatatutorial.mk
+_bookdown_files

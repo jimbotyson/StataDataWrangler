@@ -224,7 +224,7 @@ We could for example use `list` with an `if` condition, like this
 
     list surname maths if maths > 100 
 
-which woulid list any cases with a `maths` value greater than the allowable maximum.
+which would list any cases with a `maths` value greater than the allowable maximum.
 
 If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
 
@@ -239,13 +239,21 @@ In your script add the following lines:
     gen anomaly = 0
     replace anomaly = 1 if !inrange(maths,0,100)
 
+The Stata command `gen` creates a new variable in our data set (for all cases) and gives it an initial value.  The command `repace` replaces the values for cases of a variable - in this case with a condition.
+
 ## Exercise
 
 After you run the lines above, use `list` with `if` to determine if there are any anomalous cases in your data set. Have you detected any? How many?
 
-The Stata symbol for or is **\|** sometimes called bar or pipe.
+The Stata symbol for or is **\|** sometimes called bar or pipe.  In Stata you can create a complex condition (like `if`) with the pipe, but note that each side of the pipe must be a **complete Stata statement**.  So, if we consider a comparison with English, you must say:
 
-Alter the second line above so that it checks not only `maths` but the `english`, `history` and `avxm` variables as well.
+  "Would you like coffee or would you like tea?"
+  
+and not
+
+  "Would you like coffee or tea?"
+
+Alter the second line in the example above so that it checks not only `maths` but the `english`, and `history` variables as well.
 
 ## Replacing values
 
@@ -263,7 +271,7 @@ Correct the anomalous `maths` score, but do not base the replacement on the `sur
 
 ## New values
 
-There are two commands that generate new values in Stata: `generate` and `egen` (extended generate). The first is a very fast, basic Stata command and should be used whenever simple arithmetic or other manipulation of your data will create the new values, for example
+There are two commands that generate new values in Stata: `generate` (which we have already seen, abbreviated to `gen`)and `egen` (extended generate). The first is a very fast, basic Stata command and should be used whenever simple arithmetic or other manipulation of your data will create the new values, for example
 
     generate avxm = (maths + english + history)/3
 
@@ -281,11 +289,11 @@ replace avxm = .a if avxm \< 40
 
 ## Exercise
 
-Use either of `generate` to create a new variable `avxm` that is the mean of the three scores, `maths`, `english`, and `history`. Round the result to show no decimal places.(Read the Stata help on the `round()` function).
+Use either of `generate` or `egen` to create a new variable `avxm` that is the mean of the three scores, `maths`, `english`, and `history`. Round the result to show no decimal places.(Read the Stata help on the `round()` function).
 
 ## Recoding values
 
-It is not unusual to need to change the coding of a measure. For instance, we may have a continuous variable that we wish to recode into groups (giving a ranked variable that we will call `stream`). We can do this in a number of ways in Stata. I will use the most obvious, if verbose, method first.
+It is not unusual to need to change the coding of a measure. For instance, we may have a continuous variable like `avxm`, that we wish to recode into groups (giving a ranked variable that we will call `stream`). We can do this in a number of ways in Stata. I will use the most obvious, if verbose, method first.
 
 Suppose that having calculated `avxm` as average examination score for each student, we now want to group the students according to their `avxm`. We will use the Stata `if` statement to do this.
 
@@ -293,7 +301,7 @@ When you undertake a more complicated data management task, it is very helpful t
 
 [     If avxm \>= 60, stream = "high",]{style="color: red;"}<br>         if avxm \< 60 & avxm \> 50, stream = "mid",<br>             if avxm \< 50, stream = "low"
 
-I have purposefully written this out in the most explicity way. Now I'm going to reduce the complexity a little:
+I have purposefully written this out in the most explicit way. Now I'm going to reduce the complexity a little:
 
 [     If avxm \>= 60, stream = "high",]{style="color: red;"}<br>         if avxm \< 50, stream = "low",<br>             else stream = "mid"
 
@@ -317,7 +325,7 @@ Read [these instructions on using `cut`](https://stats.oarc.ucla.edu/stata/faq/h
 
 Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive and sometimes we should consider
 
- - temporarily reducing the dataset in memory and operating over all data;
+ - temporarily reducing the data set in memory and operating over all data;
  - creating a **filter** variable to reduce complex selection expressions.
  
 In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-3]
@@ -368,7 +376,7 @@ A filter variable is a variable created to indicate membership of a sub-group of
 -   maths is less than 55;
 -   history is greater 55.
 
-If we first try with a list command we will write
+If we first try with a list command, we will write
 
     list if class == 3 & maths < 55 & history > 55
 
@@ -445,7 +453,7 @@ Create appropriate labels for the variables in your data set.
 
 ## Values
 
-When we code some categorical variables, we will often use a *code* to represent the different possible values. for example, we might code eyecolour as
+When we record some categorical variables, we will often use a *code* to represent the different possible values. for example, we might code eyecolour as
 
 | Code | Meaning |
 |:-----|:--------|
@@ -461,7 +469,7 @@ The label set is a list of codes and meanings create by a command like
 
     label define eyecolourlabels 1 "Brown" 2 "Blue" 3 "Grey" 4 "Green" 5 "Other"
 
-We apply the labels to values of a variable `eyecolour` with a command like
+We then apply the labels to values of a variable `eyecolour` with a command like
 
     label values eyecolour eyecolourlabels
 
@@ -471,7 +479,7 @@ Create an appropriate label set for the variable `sex` in your data set and appl
 
 # Some exploratory analysis
 
-Before embarking on the systematic modelling and testing of data, you may wish to explore its broad outline. There are several useful Stata procedures for this task:
+Before embarking on the systematic modelling and testing of data, you may wish to explore its broad outline. There are several useful Stata procedures for this task, including:
 
 -   simple visualisatons:
 
@@ -541,7 +549,7 @@ and you can specify statistics with the `statistic` option:
 
     tabstat maths english, statistic(median var skew)
 
-A Stata command that calculate statistics will display some default output. You can check what is displayed in `help`. However, many routines actually compute more statistics than are displayed. These quantities are stored in the *return list* for the command and can be accessed after it runs. For descriptive statistics, the list is called **r()**. The brackets indicate that **r()** is an array and that we can select particular statistics from the list. Consider
+A Stata command that calculates statistics will display some default output. You can check what is displayed in `help`. However, many routines actually compute more statistics than are displayed. These quantities are stored in the *return list* for the command and can be accessed after it runs. For descriptive statistics, the list is called **r()**. The brackets indicate that **r()** is an array and that we can select particular statistics from the list. Consider
 
     summarize maths
 

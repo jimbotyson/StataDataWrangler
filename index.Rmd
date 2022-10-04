@@ -3,7 +3,17 @@ title: "Data Manipulation and Analysis in Stata"
 site: bookdown::bookdown_site
 github-repo: jimbotyson/StataDataWrangler
 output:
-  bookdown::gitbook
+  bookdown::pdf_book:
+    keep_tex: true
+  # bookdown::html_book:
+  #   css: toc.css
+  # bookdown::gitbook:
+  #   lib_dir: assets
+  #   split_by: section
+  #   config:
+  #     toolbar:
+  #       position: static
+documentclass: book
 ---
 
 # Introduction
