@@ -3,34 +3,22 @@ title: "Data Manipulation and Analysis in Stata"
 site: bookdown::bookdown_site
 github-repo: jimbotyson/StataDataWrangler
 output:
-  bookdown::pdf_book:
-    keep_tex: true
-  # bookdown::html_book:
-  #   css: toc.css
-  # bookdown::gitbook:
-  #   lib_dir: assets
-  #   split_by: section
-  #   config:
-  #     toolbar:
-  #       position: static
+  #bookdown::pdf_book:
+  #keep_tex: true
+   # bookdown::html_book:
+   #   css: toc.css
+   bookdown::gitbook:
+     lib_dir: assets
+     split_by: chapter
+     config:
+       toolbar:
+         position: static
 documentclass: book
 ---
 
-# Introduction
+# Introduction 
 
-Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world data sets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this series you will learn how to manipulate raw data and prepare it for analysis and then to carry out simple analysis of your data. The following topics are covered in the series:
-
--   ~~Learning to use multiple frames to work on data~~
-
--   ~~Merging data sets, with and without frames~~
-
--   ~~creating and dropping variables~~
-
--   ~~using `preserve` and `restore`~~
-
--   ~~creating subsets of data~~
-
--   ~~Reshaping data between long and wide form~~
+Data manipulation is the process of cleaning, organising and preparing data in a way that makes it suitable for analysis. Most real-world data sets require some form of manipulation to facilitate the downstream analysis and this process is often repeated a number of times during the data analysis cycle. In this series you will learn how to manipulate raw data and prepare it for analysis and then to carry out simple analysis of your data.
 
 There are \*\* sections to the tutorial, but each is quite short. There are few lengthy explanations. If you are not using this material in combination with a class, you will sometimes need to google for an explanation.
 

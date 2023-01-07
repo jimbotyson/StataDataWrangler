@@ -12,6 +12,23 @@ Recent versions of Stata, 17 or later are required. You can check your version f
 
 ## How to use these materials
 
+### The Larger Exercises
+
+The most important learning experiences in this offering are the two parts of the larger exercises, each of which covers a reasonably coherent subset of the material.  You should complete the **Part I** exercise after you have learned about basic graphing and **Part II** when you have learned about regression modelling.  
+
+They are designed to be completed by learners in pairs. 
+
+After the learners work on one of the exercises, the solution script 
+should be presented, and a round table discussion of problems encountered and alternative solutions should take place.
+
+### Routes
+
+One section of this book contains more material than a beginning learner should necessarily face: the section on **Some simple graph scripts**.  The two larger exercises can be completed successfully without covering all the material in this section and the material in this section can usefully be covered separately at some later time.  I would recommend the learner should cover up to **Exercise 14.12**.
+
+The section on **Tables** has been deliberately abbreviated from a much more complete session on **Tables and Collections**. The complexity of **collections** and over automatic reporting make it undesirable that a learner should face more material at this stage.  
+
+### General advice
+
 Test all the code you see. Some of the code is written to be added to a script and you should develop a single script for all sections since some of the later material will assume that you have run earlier example code. Sometimes the tutorial suggests that you run a command on the console or command line and you should do so. Don't add commands intended for the console to your script - they may cause your script to break and fail.
 
 Code to be executed and run by you looks like this:
@@ -29,16 +46,19 @@ to
 
 "The Stata command for a oneway anova is `oneway`.  Use this command to test the mean of `boodpressure` by `ethnicity`"
 
-## Completion status
-
-As of `r Sys.Date()` the final section of the tutorial on **regression** is not yet complete.
-
 ## Data
 
-The data file to be used in most exercises and examples is to be loaded from
+The data files to be used in most exercises and examples are at
 
     https://www.ucl.ac.uk/~ccaajim/results
     
+and
+
+    https://www.ucl.ac.uk/~ccaajim/medicalXtrial.xls
+    
+You can read these data using the `import` command.  You will find [this cheeatsheet useful](https://www.stata.com/bookstore/statacheatsheets.pdf).
+
+`
 ## Reference material
 
 The best source of learning material is at

@@ -2,7 +2,7 @@
 
 ## For two categorical variables
 
-A common procedure is to test for an association between two categorical variables. We can illustrate this procedure using a tabulation with a $\chi{}^2$ statistic.
+A common procedure is to test for an association between two categorical variables. We can illustrate this procedure using a tabulation with a $\chi{}^2$ statistic.  (Of course, the variable sex is not necessarily binary valued.)
 
     table sex class, expected chi2
 
@@ -12,7 +12,7 @@ Create the table with $\chi{}^2$ statistic and expected values as above. Should 
 
 ## For one continuous and one categorical variable of two levels
 
-If we have one continuous numeric variable and one two level categorical variable (such as sex) that would divide our data into two groups, we can ask ourselves whether the mean of the continuous variable differs for the groups (with *H0* being that they do not).
+If we have one continuous numeric variable and one two level categorical variable (such as employed vs unemployed) that would divide our data into two groups, we can ask ourselves whether the mean of the continuous variable differs for the groups (with *H0* being that they do not).
 
 If our two groups are independent, then we must first ask if the **variance** in the data is more or less equal between groups. The null hypothesis is that the variances are equal. This is tested by the comparison of variances using Stata's `robvar` command. We can test the `maths` scores by `sex` in our data
 
@@ -216,5 +216,21 @@ Convert the variable gender to a numeric variable so that you can use it as a fa
 Run a regression analysis with **hafter** as the dependent variable and **age** and **gender** as the independent variables.  Test also for any interaction.
 
 How do you interpret the results?
+
+# Larger Exercises Part II
+
+You should now attempt **Part II** of the [larger exercises](https://www.ucl.ac.uk/~ccaajim/LearnStata/largerexercises/largerexercises.html).
+
+It is better to work with a partner (at least more than one and no more than three).
+
+After you have written a script in response to the questions, your facilitator will provide a sample solution.  You should review your script and the sample together and formulate any questions or observations for a round table discussion.
+
+The sample script is not necessarily
+
+ * the best solution;
+ * a complete solution;
+ * the only solution.
+ 
+Do not shy away from suggesting improvements.
 
 # Notes

@@ -40,6 +40,10 @@ and then hit `enter`. Check the result and make sure that it shows the directory
 
 Check that you end up back in your new project folder.
 
+## Exercise
+
+Using your operating systems file explorer, check the folder structure you just created for your project. If it isn't what you expect, correct it.
+
 ## Common File types
 
 You will commonly encounter three types of file specific to Stata
@@ -56,7 +60,7 @@ Let's start off by creating a new do file, type
 
     doedit newdo.do
 
-You can also create a new do file editing session from the **Window** menu in Stata.
+on the Stata console. You can also create a new do file editing session from the **Window** menu in Stata.
 
 Clear everything to make sure there's nothing leftover in our environment
 
@@ -75,12 +79,14 @@ So to start this process, in your new do file add these lines:
     capture log close
     log using "MainProjectName $S_DATE.log", append
 
-or
+and
 
     capture cmdlog close
     cmdlog using "CommandsProjectName $S_DATE.log", append
 
-to log commands only and not output.
+The first will log all commands and results window ouput (ie not graphs) the second will log commands only and not output. As you gain more experience you will probably choose to use on ly one of these logs.
+
+The commands use a Stata system variable `$S_DATE` to insert today's date into the file name of your logs. This makes tracking your work easier.
 
 ## Exercise
 
@@ -89,6 +95,10 @@ Using your internet searching powers, find out why we wrote
     capture log close
 
 at the start of the script, rather than just `log close`.
+
+### Solution
+
+[You will find an explanation here](http://people.umass.edu/pubp608/logsandscripts.txt#:~:text=The%20command%20%60%60capture%20log,no%20log%20open%20to%20close.).
 
 ## Which directory?
 
@@ -102,11 +112,11 @@ on the Stata console.
 
 ## Change to your data directory
 
-Change directory to the folder that will hold your project's raw data files (that is data that you have not processed or transformed). Normally for a data wrangling script, this will be the `raw_data` directory for the project and you change to that directory by typing a line like
+Change directory to the folder that will hold your project's raw data files (that is data that you have not processed or transformed). Normally, for a data wrangling script, this will be the `raw_data` directory for the project and you change to that directory by typing a line like
 
     cd c:\users\jt\Documents\Projects\StataWrangling\raw_data\
 
-(you must alter this to point at your folder). When you write code to read a raw data file, you will want to make sure that it is read into this directory.
+(you must alter this to point at **your** folder). When you write code to read a raw data file, you will want to make sure that it is read into this directory.
 
 ## Exercise
 
@@ -114,13 +124,13 @@ Close the log file or log files you have created and outside of Stata find the f
 
 # Dataset
 
-We're using a dataset of examination results from thirty school students.
+We're using a dataset of examination results from thirty school students for demonstration and practice. For some more complicated exercises (at about the halfway mark and at the end), we will use a data set of medical trial results.
 
-These data are in Stata format. Each case or observation is a row with variables in columns[^basic_operations-1].
+These data are in either Stata or Excel format. Each case or observation is a row with variables in columns[^03-basic_operations-1].
 
-[^basic_operations-1]: Or almost, this data is in **wide** rather then **long** format, so it is not strictly tidy.
+[^03-basic_operations-1]: Or almost, this data is in **wide** rather then **long** format, so it is not strictly tidy.
 
-The data look something like this:
+The exam data look something like this:
 
 | surname   | sex | class | maths | english | history |
 |:----------|----:|------:|------:|--------:|--------:|
@@ -156,7 +166,7 @@ And run the do file. This first command produces
 
 This output shows first how many observations there are in your data and how many variables. The table that follows includes some detail about each variable:
 
-### Storage type 
+### Storage type
 
 There are two basic data types in Stata: *numeric* and *string* data. String data has two subtypes: strL (L for long) variables can store phenominal amounts of character data (2 billion) and str# (where \# is a number) and have a limit on length of 2045 characters. Numeric data is of one of five types:
 
@@ -168,7 +178,7 @@ There are two basic data types in Stata: *numeric* and *string* data. String dat
 | float  | real      | 8 digits of accuracy             |
 | double | real      | 16 digits of accuracy            |
 
-### Format types 
+### Format types
 
 These are associated with variables - each has a default, which determines how values are displayed, so that regardless of the precision of the type, the number of decimal places and the width in number of characters to be displayed can be fixed. So a format type `%9.0g` is a left justified number of maximum 9 characters in width and with specific decimal precision (although in this case zero means 'just as many as can be displayed for this width').
 
@@ -190,7 +200,7 @@ To list data in the main results window you use the list command. If you type
 
     list maths english
 
-on the console, Stata will respond by listing all observations for those variables. If you don't specify variables Stata use all the variables.
+on the console, Stata will respond by listing all observations for those variables. If you don't specify variables Stata uses all the variables.
 
 ## Exercise
 
@@ -226,11 +236,13 @@ We could for example use `list` with an `if` condition, like this
 
 which would list any cases with a `maths` value greater than the allowable maximum.
 
+The **comparison operator** we use here is **greater than**. We must remember that the operator for **equals** is **==**.
+
 If we had a larger data set with many variables this would be much more difficult. We will write some code to help us in the detection of variables.
 
-In Stata we can use programming functions that return values[^basic_operations-2]. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
+In Stata we can use programming functions that return values[^03-basic_operations-2]. Many functions return values **true** or **false**. There is a function **inrange(variable, min, max)** that returns true if *variable* is greater than *min* and less than or equal to *max*. We negate functions with the operator meaning **not**: **!**.
 
-[^basic_operations-2]: See [Stata 17 Manual: Functions](https://www.stata.com/manuals/fn.pdf "Stata 17 Manual, Functions")
+[^03-basic_operations-2]: See [Stata 17 Manual: Functions](https://www.stata.com/manuals/fn.pdf "Stata 17 Manual, Functions")
 
 ## Exercise
 
@@ -239,21 +251,23 @@ In your script add the following lines:
     gen anomaly = 0
     replace anomaly = 1 if !inrange(maths,0,100)
 
-The Stata command `gen` creates a new variable in our data set (for all cases) and gives it an initial value.  The command `repace` replaces the values for cases of a variable - in this case with a condition.
+The Stata command `gen` creates a new variable in our data set (for all cases) and gives it an initial value. The command `repace` replaces the values for cases of a variable - in this case with a condition.
 
 ## Exercise
 
 After you run the lines above, use `list` with `if` to determine if there are any anomalous cases in your data set. Have you detected any? How many?
 
-The Stata symbol for or is **\|** sometimes called bar or pipe.  In Stata you can create a complex condition (like `if`) with the pipe, but note that each side of the pipe must be a **complete Stata statement**.  So, if we consider a comparison with English, you must say:
+The Stata symbol for or is **\|** sometimes called bar or pipe. In Stata you can create a complex condition (like `if`) with the pipe, but note that each side of the pipe must be a **complete Stata statement**. So, if we consider a comparison with English, you must say:
 
-  "Would you like coffee or would you like tea?"
-  
+"Would you like coffee or would you like tea?"
+
 and not
 
-  "Would you like coffee or tea?"
+"Would you like coffee or tea?"
 
-Alter the second line in the example above so that it checks not only `maths` but the `english`, and `history` variables as well.
+List all cases where `maths < 50` or `maths > 60`.
+
+Alter the second line in the previous exercise example above (the `replace` clause) so that it checks not only `maths` but the `english`, and `history` variables as well.
 
 ## Replacing values
 
@@ -281,7 +295,7 @@ The second is a more complicated command that can apply any of a list of pre-def
 
 The full list of functions for `egen` is listed in Stata help.
 
-Both commands can be used in conjunction with `replace` to achieve complex operations of generation and modification of variables, for example we may generate a new value and then conditionally make it missing for some cases:
+Both commands can be used in conjunction with `replace` to achieve complex operations of generation and modification of variables, for example we may generate a new value and then conditionally make it missing for some cases (don't run this code!):
 
 generate avxm = (maths + english + history)/3
 
@@ -299,11 +313,11 @@ Suppose that having calculated `avxm` as average examination score for each stud
 
 When you undertake a more complicated data management task, it is very helpful to write out in pseudo-English what you want to do. So, I want to apply this rule to my data:
 
-[     If avxm \>= 60, stream = "high",]{style="color: red;"}<br>         if avxm \< 60 & avxm \> 50, stream = "mid",<br>             if avxm \< 50, stream = "low"
+    If avxm \>= 60, stream = "high",<br>         if avxm \< 60 & avxm \> 50, stream = "mid",<br>             if avxm \< 50, stream = "low"
 
 I have purposefully written this out in the most explicit way. Now I'm going to reduce the complexity a little:
 
-[     If avxm \>= 60, stream = "high",]{style="color: red;"}<br>         if avxm \< 50, stream = "low",<br>             else stream = "mid"
+    If avxm \>= 60, stream = "high",<br>         if avxm \< 50, stream = "low",<br>             else stream = "mid"
 
 In this version I don't have to spell out the compound condition. Win!
 
@@ -325,12 +339,12 @@ Read [these instructions on using `cut`](https://stats.oarc.ucla.edu/stata/faq/h
 
 Selection of either variables or cases in Stata is often presented as applied to a single command or procedure. So, we use a list of variables after a command name and we may or may not then apply some criterion to filter the cases displayed. This works. It is however needlessly repetitive and sometimes we should consider
 
- - temporarily reducing the data set in memory and operating over all data;
- - creating a **filter** variable to reduce complex selection expressions.
- 
-In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^basic_operations-3]
+-   temporarily reducing the data set in memory and operating over all data;
+-   creating a **filter** variable to reduce complex selection expressions.
 
-[^basic_operations-3]: [How do I select a subset of observations using a complicated criterion?](https://www.stata.com/support/faqs/data-management/selecting-subset-of-observations/ "How do I select a subset of observations using a complicated criterion?")
+In what follows I mainly treat selecting data in the "traditional" way, but I will suggest that judicious use of `restore`and `preserve` as well as the practice of storing selection criteria in *filter variables* can improve your Stata experience.[^03-basic_operations-3]
+
+[^03-basic_operations-3]: [How do I select a subset of observations using a complicated criterion?](https://www.stata.com/support/faqs/data-management/selecting-subset-of-observations/ "How do I select a subset of observations using a complicated criterion?")
 
 ## Selecting variables
 
@@ -348,9 +362,9 @@ The command `preserve` takes a snapshot of a data set. If we then manipulate or 
 
 ## Exercise
 
-Use the `preserve` command to take a snapshot of your data and then drop the variables `surname` and `sex`. List the first ten observations in your data. Use `restore` to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^basic_operations-4] the effect of `preserve` and `restore`.
+Use the `preserve` command to take a snapshot of your data and then drop the variables `surname` and `sex`. List the first ten observations in your data. Use `restore` to return to your original data. List the first ten observations in your data. Describe to your rubber duck[^03-basic_operations-4] the effect of `preserve` and `restore`.
 
-[^basic_operations-4]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
+[^03-basic_operations-4]: Your rubber duck may be an actual rubber duck and it may require some imagination to talk to your duck about Stata, but it will work! Alternatively, you may have a learning partner or study buddy and you can exploit them to listen to your explanation.
 
 <!-- Stata has a built in *macro* (Stata speak for a script variable) named **\_all** that contains all the variable names currently in memory. -->
 
@@ -360,13 +374,11 @@ If you need to select cases, that is rows from your data, you should use the `if
 
      list surname english maths if english > 60 & maths < 50
 
-We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of **regexm()**in a compound condition on `list` [^basic_operations-5] .
+We can add wildcards to our selection criteria using regular expressions. To do this we use Stata's **regexm()** function. The following example illustrates the use of **regexm()**in a compound condition on `list` [^03-basic_operations-5] .
 
-```
-list surname english maths if !regexm(surname,"\^B") & english \> 60 & maths \< 60
-```
+[^03-basic_operations-5]: [What are regular expressions and how can I use them in Stata?](https://www.stata.com/support/faqs/data-management/regular-expressions/ "What are regular expressions and how can I use them in Stata?")
 
-[^basic_operations-5]: [What are regular expressions and how can I use them in Stata?](https://www.stata.com/support/faqs/data-management/regular-expressions/ "What are regular expressions and how can I use them in Stata?")
+    list surname english maths if !regexm(surname,"\^B") & english \> 60 & maths \< 60
 
 ## Using a filter variable
 
@@ -502,9 +514,9 @@ You might like to create graphs for a list of variables. You can try to first cr
     local conts maths english history
     hist `conts'
 
-Unfortunately, this does not work (since `hist` can only be followed by a single variable) and in any case soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this by creating and exporting the histograms we create in a program [^basic_operations-6].
+Unfortunately, this does not work (since `hist` can only be followed by a single variable) and in any case soon as Stata creates a new graph, the currently open graph window is destroyed. We can avoid this by creating and exporting the histograms we create in a program [^03-basic_operations-6].
 
-[^basic_operations-6]: [Loop tutorial from Data Carpentry](https://datacarpentry.org/stata-economics/06-loops/ "Loop tutorial from Data Carpentry")
+[^03-basic_operations-6]: [Loop tutorial from Data Carpentry](https://datacarpentry.org/stata-economics/06-loops/ "Loop tutorial from Data Carpentry")
 
 Add the following lines to your script
 
@@ -525,7 +537,7 @@ Create histograms for the `english` and`history` data. How similar or dissimilar
 
 Create box plots of `maths` for each level of`sex`. How do you think the male and female maths scores compare?
 
-Using your web searching powers, see if you can generate a box plot of maths scores that is subset by both `sex` and `class`.  You should look out for mention of an option `over'.
+Using your web searching powers, see if you can generate a box plot of maths scores that is subset by both `sex` and `class`. You should look out for mention of an option \`over'.
 
 Having created the box plot by `sex` above, open Stata's graph editor and add the title to the plot "Maths scores by gender".
 
@@ -581,7 +593,7 @@ and in more advanced procedures you can use them in **collections** and in mathe
 
 Compute the summary statistics with detail for `history`. Use the return list from the command and then display the kurtosis of the variable.
 
-## Tables
+# Tables
 
 As well as tables of statistics for continuous data calculated with `tabstat`, you can create tables of frequencies for categorical data. For example
 
@@ -610,10 +622,471 @@ It is possible to create tables that show expected as well as observed frequency
 
     table sex class, expected
 
-and to add specific detail about a continuous variable by using the **command()** option[^basic_operations-7]. For example:
+and to add specific detail about a continuous variable by using the **command()** option[^03-basic_operations-7]. 
 
-    table (class) (sex),command(r(sd) r(skewness): summarize maths, detail)
+[^03-basic_operations-7]: [See the Stata manual for the command option](https://www.stata.com/manuals/rtable.pdf "See the Stata manual for the command option").
+
+For example:
+
+`table (class) (sex),command(r(sd) r(skewness): summarize maths, detail)`
 
 You will notice that the `command` option uses values from the **return list** for (in this example) the `summarize` command.
 
-[^basic_operations-7]: [See the Stata manual for the command option](https://www.stata.com/manuals/rtable.pdf "See the Stata manual for the command option").
+## Customized tables
+
+The customization of tables in Stata depends on the very powerful **collection** command set. There is not time to cover this in detail here and I recommend that you read [this Stata blog post by Chuck Huber](https://blog.stata.com/2021/06/07/customizable-tables-in-stata-17-part-1-the-new-table-command/) for more detail.
+
+To follow this section you should run the file **customtabledo.do** which you can download from \*\*\*\*.
+
+### A **tabulation** with customized layout
+
+First, look at the output of this command:
+
+    tabulate teacher gender, chi2 expected
+
+and now let us see how to **collect** the results of this command and build a simple custom layout.
+
+    collect: tabulate teacher gender, chi2 expected
+
+This creates a collection of all the output from the tabulate command (not just what is shown by default) which it stores in a set of "dimensions":
+
+    collect dims
+
+From the output here we see a dimension **result** with five levels. We can look at the content of these levels with the **levelsof** option:
+
+    collect levelsof result
+
+and we see that the reult dimension has levels for *N c chi2 p r*: the number of observations, the number of columns, Pearson's Chi Square, the probability for Chi Square and the number of rows.
+
+One of the complications using tables and collections is the need to be aware of the dimensions and levels in a collection and their meanings. For now let us use the **layout** option on collect to create a simple table of output:
+
+    collect layout (result[N chi2 p])()
+
+Like the **table** command, **layout** specifies first rows, then columns of your output.
+
+We will check the labelling of these levels with
+
+    collect label list result, all
+
+and modify them for our output:
+
+    collect label levels result chi2 "Test of Association" N "Count" p "Prob(Chi)", modify
+
+This section gives the outlines of a simple example a customized table. There is much more that you can learn from the documentation.
+
+# Some simple graph scripts
+
+## Intro
+
+Stata graphing is **easy** if you use the interactive graph editor.
+
+Stata graphing is **hard** if you script. The documentation is exhaustive and highly structured. And a complete rabbit hole. The cheatsheet is a great help!
+
+You should script because graphs that are scripted are
+
+-   repeatable;
+-   modifiable;
+-   programmatically exportable to Word, HTML and so on.
+
+The problem is remembering both the huge variety of options available (1,700?) to what are at base a small number of basic graphing commands, and knowing which options can apply to which graph types. I haven't mastered either of these issues.
+
+The [cheat sheets](https://www.dropbox.com/s/689lovb5vf5meyt/statacheatsheets.pdf?dl=0) really help.
+
+<https://www.dropbox.com/s/689lovb5vf5meyt/statacheatsheets.pdf?dl=0>
+
+Instead, I want to show you some simpler and then some slightly more complicated graph scripts with explanations of the options and then explain how to export your output to reports.
+
+## What will you learn?
+
+We will cover some basic graph editing using the graph editor/menus, just to get an idea of what Stata graphs can look like and some of the options we can change.
+
+We will then cover creating and modifying graphs in scripts including adding adornment to graphs, such as titles, subtitles, notes and captions, modifiying appearance such as the shape and colour of markers and using `by()`, `over()` and `separate` to produce facted and subplots and to selectively modify graph objects. You will also be introduced to the very basics of Stata's graph schemes.
+
+Finally you will learn the effective way to export graphs from scripts to Word documents and how to create several graphs and export them in a script loop.
+
+So, first, we will look at using the graph editor to understand the alternative to scripting.
+
+## Exercise
+
+Import the data from
+
+    https://www.ucl.ac.uk/~ccaajim/medtrial.csv"
+
+using the Stata procedure `import delimited`.
+
+Use the following code to add value labels to the variable `gender`:
+
+     label define genderl 1 "Male" 2 "Female"
+     label values gender genderl
+
+Use the commands `desc` and `codebook` to examine the data set.
+
+Use the Stata `grahics` menu to make the following plots:
+
+-   a pie chart of frequencies of `gender`
+-   a bar chart of frequencies of `smoker`
+-   a histogram of `hbefore`
+-   a histogram of `hafter` with subplots by `gender`
+-   
+
+For the last of these, with the graph window open, open the graph editor and change the colour of the bars (plotregion 1, plot 1) and the bar borders to reddish. Save the plot to a `png` file.
+
+## Basic types of Stata graph
+
+-   twoway plots
+    -   scatterplots;
+    -   line plots;
+    -   fit plots;
+    -   fit plots with confidence intervals;
+    -   area plots;
+    -   bar plots;
+    -   range plots;
+    -   distribution plots
+-   scatterplot matrices
+-   bar charts
+-   box plots
+-   dot plots
+-   pie charts
+
+## The basic `graph` command and some simple examples
+
+The most basic command for creating graphs and charts in Stata is `graph`. This command has a number of sub-commands and options. The major sub-commands describe different varieties of plot - such as twoway, box plot, and the sub-types of twoway such as scatter and line. (For some reason there is also a small collection of graphs that are independent of either `graph` or `twoway` including `histogram`.)
+
+## Exercise
+
+Create a new do file and add the following lines of code:
+
+    sysuse auto, clear
+    hist mpg
+
+![A simple histogram of the mpg variable from data set auto.](mpghist1.png "A simple histogram of the mpg variable from dataset auto.")
+
+Open the graph editor and change the backgroud colour of the graph.
+
+## Creating a graph adding elements and changing defaults: box plot example
+
+Next an equally simple box plot:
+
+`graph box mpg`
+
+![A box plot graph of the mpg variable from the auto data set with no options specified.](../Stata Training Material General/graphs/mpgbox1.png "A Simple Box Plot")
+
+## Exercise
+
+Using the data in the file `medtrial.csv` on \*\*<https://www.ucl.ac.uk/~ccaajim/>", create a box plot of the variable `hafter`.
+
+Use the option `nooutsides` to block the graphing of extreme values.  Use your internet search power to find the documentation of the option `nooutsides`.
+
+## Adornments
+
+This graph has no options specified. We begin by specifying a Title. When creating a graph from a script, it makes code easier to read if each option is on a separate line, and if we indent options. To break a command over more than one line in a Stata do file, we must use the line extender code: `///`.
+
+    sysuse auto
+
+    graph box mpg, ///
+      title("A Simple Box Plot")
+
+![A box plot graph of the mpg variable from the auto dataset with title added.](../Stata Training Material General/graphs/mpgbox2.png "A Simple Box Plot with Title")
+
+Now, we add a sub-title, caption and a note on the graph with instructions for position and ring:
+
+    sysuse auto
+
+    graph box mpg, ///
+      title("A Simple Box Plot", position(12) ring(1)) ///
+      subtitle("There is only one group in this graph.", ring(0)) ///
+      note("In later graphs we will subset the data.") ///
+      caption("This is the caption or our first graph.")
+
+![A Box Plot with Title, Subtitle and Note](../Stata Training Material General/graphs/mpgbox3.png "A Box Plot with Title, Subtitle and Note")
+
+The `position` option is a clock number and `ring` is 0 or 1, indicating inside or outside the plot region.
+
+## Exercise
+
+Using the medtrial data set, create a box plot of each of hbefore and hafter.
+
+Add to each the title "Plasma concentrations of H", with the appropriate subtitle indicating whether the measure is pre or post treatment.
+
+## Subset the data
+
+No we subset the data using the categorical variable `foreign`.
+
+    graph box mpg, ///
+      title("A Box Plot", position(12) ring(1)) ///
+      note("We have no subset the data.") ///
+      caption("This is the caption for our first graph.", ring(1)) ///
+      subtitle("There are two groups in this graph.", ring(0)) ///
+      over(foreign)
+
+Which produces[^03-basic_operations-8]
+
+[^03-basic_operations-8]: Remember to distinguish **by()** and **over()**.
+
+![A Box Plot with data grouped based on a nominal variable.](../Stata Training Material General/graphs/mpgbox4.png "A Box Plot with data grouped based on a nominal variable.")
+
+You will see that this graph could be improved by paying attention to the position of some elements. I leave this to you as an exercise.
+
+We can modify this to exclude the ticks and grid lines - since this is a box plot we are only modifying the **y-axis** grid lines since no grid is the default for the **x-axis**.  
+    
+    sysuse auto
+
+    graph box mpg, ///
+      title("A Simple Box Plot", position(12) ring(1)) ///
+      note("In later graphs we will subset the data.") ///
+      caption("This is the caption for our first graph.", ring(1)) ///
+      subtitle("There are two groups in this graph.", ring(0)) ///
+      over(foreign) ///
+      ylabel(,nogrid noticks) ///
+      asyvars 
+      
+
+which produces
+
+![A Box Plot with gridlines supressed.](../Stata Training Material General/graphs/images/mpgbox5-1.png "A Box Plot with gridlines supressed.")
+
+This also introduces the use of `asyvars` with `over()`. This option chooses the first listed variable in `over()` as the y variable grouping.
+
+## Exercise
+
+Produce one graph showing box plots for `hbefore` and `hafter` with appropriate title, for each level of `gender` and differentiating the groups using color.
+
+## Exercise
+
+Run the following lines of code from a new do file
+
+    gen surname2 = surname if smoker=="Y"
+    scatter hbefore hafter , mlabel(surname2)
+
+Change the code so that the points are labelled only where `gender` is male.
+
+## Standardising your graphing options
+
+We can use variables, `graph_opts` and `graph_opts_1` as examples, to standardize output.
+
+<https://dimewiki.worldbank.org/Stata_Coding_Practices:_Visualization>
+
+    // For -twoway- graphs
+    global graph_opts ///
+      title(, justification(left) color(black) span pos(11)) ///
+      graphregion(color(white)) ///
+      xscale(noline) xtit(,placement(left) justification(left)) ///
+      yscale(noline) ylab(,angle(0) nogrid) ///
+      legend(region(lc(none) fc(none)))
+
+    // For -graph- graphs
+    global graph_opts_1 ///
+      title(, justification(left) color(black) span pos(11)) ///
+      graphregion(color(white)) ///
+      yscale(noline) ylab(,angle(0) nogrid) ///
+      legend(region(lc(none) fc(none)))
+
+Then use as in the following example
+
+    sysuse auto.dta , clear
+
+    scatter price mpg, ///
+      ${graph_opts}
+      graph draw , ysize(7)
+      graph export "scatter.png" , width(4000)
+
+## Introducing colour
+
+And now we will introduce color by factor variable levels. Note that the command that achieves this, `asyvars`, is technically instructing Stata to treat each level the first grouping variable as a separate y axis variable.
+
+    sysuse auto, clear
+
+    graph box mpg, ///
+      title("A Simple Box Plot") ///
+      subtitle("There are two groups in this graph.") ///
+      over(foreign) ///
+      asyvars 
+
+![A box plot with factor shown by color of box.](../Stata Training Material General/graphs/images/mpgbox5.png "A box plot with factor shown by color of box.")
+
+Here is the code for a graph with custom colours set for several of the plot regions.
+
+    graph box mpg, ///
+      title("A Simple Box Plot") ///
+      subtitle("There are two groups in this graph.") ///
+      over(foreign) ///
+      asyvars ///
+      graphregion(fcolor(gs13)) ///
+      plotregion(fcolor(cranberry)) ///
+      plotregion(icolor(ltblue))
+
+This produces
+
+![A box plot with a number of custom color options.](../Stata Training Material General/graphs/images/mpgbox6.png "A box plot with a number of custom color options.")
+
+Here is the chart with some of the regions labelled with relevant code:
+
+![A box plot with a number of custom color options.](../Stata Training Material General/graphs/images/labelledstatachart.png "A box plot with regions labelled.")
+
+It is worth noting that the undocumented command `bgcolor` appears to override custom color specifications, thus
+
+    graph box mpg, ///
+      title("A Simple Box Plot") ///
+      subtitle("There are two groups in this graph.") ///
+      over(foreign) ///
+      asyvars ///
+      bgcolor(white)
+      graphregion(fcolor(gs13)) ///
+      plotregion(fcolor(cranberry)) ///
+      plotregion(icolor(ltblue))
+
+![A box plot with a number of custom color options.](
+images/mpgbox7.png "A box plot with a number of custom color options.")
+
+## Adding elements and changing defaults: scatter plot examples
+
+First the most basic scatter plot of two continuous variables:
+
+    sysuse auto
+
+    scatter mpg weight
+
+This using Stata defaults produces:
+
+![A simple scatter plot of two continuous variables.](../Stata Training Material General/graphs/images/mpgweight1.png "A simple scatter plot of two continuous variables.")
+
+In the next version, we first of all `separate` the mpg values into groups based on the `rep` variable. The **?** in `mpg?` below is a wildcard for the numeric suffix of the list of mpg variables created by separate.
+
+![A scatter plot of two continuous variables with varying marker shapes and colour use.](../Stata Training Material General/graphs/images/mpgweight1-1.png "A scatter plot of two continuous variables with varying marker shapes and colour use.")
+
+We also change the markers, but note we must add **msymbol()** specifications for each group.
+
+    sysuse auto, clear
+    separate mpg, by(rep)
+
+    scatter mpg? weight, ///
+    msymbol(O D T S X) ///
+    title("Miles per gallon as a function of Weight") ///
+    subtitle("Showing a plausibly strong, negative relationship") ///
+    plotregion(fcolor(bluishgray))
+
+![A scatter plot of two continuous variables with varying marker shapes and colour use.](../Stata Training Material General/graphs/images/mpgbox5-2.png "A scatter plot of two continuous variables with varying marker shapes and colour use.")
+
+## Exercise
+
+Using the medtrial data, seperate the data in `hafter` by `smoker`. Make a scatter plot of the new `hafter?` variables against `hbefore`.
+
+Apply different marker symbols to the two data groups. Add an appropriate title.
+
+## Using a Stata graph scheme
+
+A Stata graph scheme is a collection of pre-determined choices you can apply easily to any Stata graph. All aspects of the appearance can be controlled from the scheme.
+
+There are a number of built-in schemes available and there are also user contributed schemes.
+
+In the code below, I apply the scheme `plottig` from the scheme package `blindschemes` which I have previously installed in Stata with the command
+
+    ssc install blindschemes, replace all
+
+Now the graph code:
+
+    sysuse auto
+
+    graph box mpg, ///
+      title("A Simple Box Plot") ///
+      subtitle("There are two groups in this graph.") ///
+      over(foreign) ///
+      asyvars ///
+      scheme(plottig)
+
+And the result:
+
+![A box plot with the scheme plottig applied.](../Stata Training Material General/graphs/images/mpgbox8.png "A box plot with the scheme plottig applied.")
+
+This scheme is heavily inspired by the default appearance of graphs produced by `ggplot2`.
+
+And here is a scatter plot with the `plotplain` scheme applied and the legend cleaned up a bit by applying variable labels:
+
+    sysuse auto, clear
+
+    separate mpg, by(rep)
+
+    label variable mpg1 "Fuel Consumption1"
+    label variable mpg2 "Fuel Consumption2"
+    label variable mpg3 "Fuel Consumption3"
+    label variable mpg4 "Fuel Consumption4"
+    label variable mpg5 "Fuel Consumption5"
+
+    scatter mpg? weight, ///
+        msymbol(O S D T X) ///
+        title("Miles per gallon as a function of Weight") ///
+        subtitle("Showing a plausibly strong, negative relationship") ///
+        plotregion(fcolor(bluishgray)) ///
+        scheme(plottig)
+
+![A scatter plot with group membership indicated by markerhape and scheme plotplain applied.](../Stata Training Material General/graphs/images/mpgweightscatterplain.png "A scatter plot with group membership indicated by markerhape and scheme plotplain applied.")
+
+Once you are familiar with using schemes and with the graph options you may consider using [these guidelines to modify a scheme to suit your own preferences](https://medium.com/the-stata-guide/stata-schemes-5ef99d099585 "guidelines to modify a Stata graph scheme.").
+
+## Exporting the graph to Word from your script
+
+The following code creates a box plot with a variety of options set, and saves the output as part of a Word document also created by the script.
+
+    sysuse auto, replace
+    cd "c:\Users\DELL\Documents\Data\Stata\TablesTutorial\StataGraphing\"
+    putdocx clear
+    putdocx begin
+
+    // Create paragraphs
+    putdocx paragraph
+    putdocx text ("Create and embed your graph"), style(Heading1)
+    putdocx paragraph
+    putdocx text ("This is a graph created by a script and exported to Word.")
+
+    // Embed a graph
+    graph box mpg, ///
+      title("A Simple Box Plot") ///
+      subtitle("There are two groups in this graph.") ///
+      over(foreign) ///
+      asyvars ///
+      graphregion(fcolor(gs13)) ///
+      plotregion(fcolor(cranberry)) ///
+      plotregion(icolor(ltblue))
+      
+    graph export "C:\Users\DELL\Documents\Data\Stata\TablesTutorial\StataGraphing\mgpbox7.png", as(png)
+
+    putdocx image "C:\Users\DELL\Documents\Data\Stata\TablesTutorial\StataGraphing\mgpbox7.png"
+
+    putdocx save myreport.docx, replace
+
+As you continue to create visualistions you can change the otpion on `putdocx save` from `replace` to `append`.
+
+## Creating and exporting several graphs in a loop
+
+There are often situations when we wish to create identical graphs for a number of variables or the same variable over or by different factors. In this case we can use a loop structure and a local macro in Stata to do the job for us.
+
+Consider the code:
+
+    import delimited "https://www.ucl.ac.uk/~ccaajim/results.csv", clear
+
+    local exams "maths english history"
+
+    foreach exam in `exams' {
+        graph box `exam' 
+        graph export  "`exam'.png", replace
+    }
+
+This code takes three variables from a data set and in a `foreach` loop creates then exports a boxplot of that variable.
+
+The code should be easily modifiable and in may circumstances will considerably reduce the number of lines of code written.
+
+# Larger Exercises Part I
+
+You should now attempt **Part I** of the [larger exercises](https://www.ucl.ac.uk/~ccaajim/LearnStata/largerexercises/largerexercises.html).
+
+It is better to work with a partner (at least more than one and no more than three).
+
+After you have written a script in response to the questions, your facilitator will provide a sample solution.  You should review your script and the sample together and formulate any questions or observations for a round table discussion.
+
+The sample script is not necessarily
+
+ * the best solution;
+ * a complete solution;
+ * the only solution.
+ 
+Do not shy away from suggesting improvements.

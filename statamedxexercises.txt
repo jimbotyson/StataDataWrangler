@@ -1,0 +1,48 @@
+All of these exercises use the data in medTrialX.xlsx
+
+Part I summary exercise
+
+generate hdiff as the difference between hbefore and hafter.
+
+Generate two new ranked variables: incgroup and postsize following the rules:
+
+    If income >=  3rd Quartile , incgroup = “high”,
+        if income < 1st Quartile  , incroup  = “low”,
+            else incgroup = “mid”
+
+and
+
+    If hdiff > median(hdiff), postsize = "large",
+	    else postsize = "small"
+
+What do the two new variables tell you?
+
+Give appropriate labels to all variables.
+
+Give appropriate labels to the values of gender, smoker and incgroup.
+
+Generate  detailed summary descriptive statistics for hbefore, hafter and hdiff.
+
+Make box plots of hbefore, hafter and hdiff as a function of gender.  Put appropriate titles on the plots.  Save the plots.
+
+Part II summary exercise
+
+
+Make a custom table showing the mean, sd and skewness for hafter tabulated by gender and smoker.  Do not display totals.  Save the table as a word document.
+
+
+Test for any association between the variables gender, smoker, incgroup and postsize.
+
+Test to determine whether gender, smoker or income group affect the mean level of hafter.
+
+
+Create regression models to test for the effects of
+
+ * age
+ * age and gender
+ * gender and smoker
+ * any interactisons between gender and smoker
+
+on hafter.
+
+Describe your results.
