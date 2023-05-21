@@ -1,17 +1,12 @@
 bookdown::gitbook:
+  css: css/readthedocs.css
   config:
-    toc:
-      collapse: subsection
-      scroll_highlight: true
-      before: null
-      after: null
     download: ["pdf"]
     sharing:
       github: yes
       twitter: no
       facebook: no
       all: []
-    split_by: chapter
-    config:
-      toolbar:
-        position: static
+
+bookdown::pdf_book:
+  keep_tex: yes
